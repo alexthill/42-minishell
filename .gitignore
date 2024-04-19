@@ -1,5 +1,6 @@
 minishell
 *.swp
+test/diffs/
 
 # Prerequisites
 *.d
