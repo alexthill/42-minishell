@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 14:38:32 by athill            #+#    #+#             */
-/*   Updated: 2024/04/18 12:02:58 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/19 16:02:41 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,24 +34,35 @@ static int	reduce(t_buffer *stack)
 	return (0);
 }
 
-static size_t	parse_leaftok(t_buffer const *tokens, size_t i, t_buffer *stack)
+static int	parse_leaftok(t_buffer const *tokens, size_t *i, t_buffer *stack)
 {
 	t_ast	*node;
-	t_ast	*new_node;
+	t_ast	*leaf;
+	int		status;
 
+	status = 0;
+	leaf = ast_new(NODE_LEAF, 0);
+	while (*i < tokens->len && status == 0)
+	{
+		if (!is_meta(((char const *)tokens->ptr[*i])[0]))
+			buffer_push(&leaf->children, tokens->ptr[*i]);
+		else if (token_is_redir(tokens->ptr[*i]))
+			status = ast_parse_redir(tokens, i, &leaf->redirs);
+		else
+			break ;
+		*i = *i + 1;
+	}
 	node = buffer_last(stack);
-	new_node = ast_new(NODE_LEAF, tokens->ptr[i]);
-	while (++i < tokens->len && !is_meta(((char *)tokens->ptr[i])[0]))
-		buffer_push(&new_node->children, tokens->ptr[i]);
-	if (!node || node->type == NODE_GROUP_OPEN || i == tokens->len
-		|| (ft_streq(tokens->ptr[i], "|") && node->type != NODE_PIPE))
-		buffer_push(stack, new_node);
+	if (!node || node->type == NODE_GROUP_OPEN || *i == tokens->len
+		|| (ft_streq(tokens->ptr[*i], "|") && node->type != NODE_PIPE))
+		buffer_push(stack, leaf);
 	else
-		buffer_push(&node->children, new_node);
-	return (i - 1);
+		buffer_push(&node->children, leaf);
+	*i = *i - 1;
+	return (status);
 }
 
-static int	parse_metatok(char *token, char *next, t_buffer *stack)
+static int	parse_metatok(char const *token, char const *next, t_buffer *stack)
 {
 	t_ast	*node;
 
@@ -59,15 +70,15 @@ static int	parse_metatok(char *token, char *next, t_buffer *stack)
 	if (node && node->type == NODE_PIPE && !ft_streq(token, "|"))
 		reduce(stack);
 	if (ft_streq(token, "(") && node && node->type == NODE_LEAF)
-		return (print_err(SYNTAX_ERR, "unexpected token", "("));
+		return (print_err(SYNTAX_ERR, "unexpected token", token));
 	if (ft_streq(token, "("))
 		buffer_push(stack, ast_new(NODE_GROUP_OPEN, 0));
 	else if (ft_streq(token, ")") && node)
 	{
 		reduce(stack);
 		node = buffer_last(stack);
-		if (!node || node->type != NODE_GROUP_OPEN)
-			return (print_err(SYNTAX_ERR, "unexpected token", ")"));
+		if (node->type != NODE_GROUP_OPEN)
+			return (print_err(SYNTAX_ERR, "unexpected token", token));
 		node->type = NODE_GROUP;
 		if (stack->len >= 2
 			&& ((t_ast *)stack->ptr[stack->len - 2])->type != NODE_GROUP_OPEN
@@ -84,7 +95,7 @@ static int	parse_metatok(char *token, char *next, t_buffer *stack)
 		buffer_push(stack, ast_new(NODE_AND, buffer_pop(stack)));
 	else if (ft_streq(token, "|") && node)
 	{
-		if (!node || node->type != NODE_PIPE)
+		if (node->type != NODE_PIPE)
 			buffer_push(stack, ast_new(NODE_PIPE, buffer_pop(stack)));
 	}
 	else
@@ -104,8 +115,9 @@ int	ast_parse(t_buffer const *tokens, t_buffer *stack)
 	while (++i < tokens->len)
 	{
 		//printf("tok %s\n", (char *)tokens->ptr[i]);
-		if (!is_meta(((char const *)tokens->ptr[i])[0]))
-			i = parse_leaftok(tokens, i, stack);
+		if (!is_meta(((char const *)tokens->ptr[i])[0])
+			|| token_is_redir(tokens->ptr[i]))
+			status = parse_leaftok(tokens, &i, stack);
 		else if (i + 1 < tokens->len)
 			status = parse_metatok(tokens->ptr[i], tokens->ptr[i + 1], stack);
 		else
