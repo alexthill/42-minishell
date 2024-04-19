@@ -50,7 +50,8 @@ handle_diff() {
 	rm -f found expected out_stderr diff.diff
 }
 
-for filename in $(find test_cases -type f -exec echo "{}" \;); do
+execute_file_tests() {
+	filename=$1
 	if [[ $filename == test_cases/bonus/* && $bonus -eq "0" ]]; then
 		continue
 	fi
@@ -60,14 +61,22 @@ for filename in $(find test_cases -type f -exec echo "{}" \;); do
 		IFS='	'; array=($line); unset IFS;
 		echo -n "${array[1]} "
 		diff="diffs/${array[0]}.diff"
-		CMD1="echo \"${array[1]}\" | bash"
-		CMD2="echo \"${array[1]}\" | ../minishell"
+		CMD1="echo \"${array[1]}\" | tr ';' '\\n' | bash"
+		CMD2="echo \"${array[1]}\" | tr ';' '\\n' | ../minishell"
 		touch expected
 		handle_cmd "expected" "$CMD1"
 		handle_cmd "found" "$CMD2"
 		handle_diff "$CMD1" "$CMD2" "$diff"
 	done < "$filename";
-done
+}
+
+if [[ "$1" == /* ]]; then
+	execute_file_tests "test_cases$1"
+else
+	for filename in $(find test_cases -type f -exec echo "{}" \;); do
+		execute_file_tests "$filename"
+	done
+fi
 
 echo ""
 if [[ $errcount -eq 0 ]]; then
