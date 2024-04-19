@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 10:29:17 by athill            #+#    #+#             */
-/*   Updated: 2024/04/18 16:13:56 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/19 10:17:38 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@
 #include "libft.h"
 #include "minishell.h"
 
-static void	exec_extern(t_data *data, char **args)
+static int	exec_extern(t_data *data, char **args)
 {
 	size_t	i;
 	char	*path;
 
 	if (args[0][0] == '.' || args[0][0] == '/')
-		exit(print_errno(execve(args[0], args, data->envp), args[0]));
+		return (print_errno(execve(args[0], args, data->envp), args[0]));
 	i = -1;
 	while (data->path[++i])
 	{
@@ -33,7 +33,7 @@ static void	exec_extern(t_data *data, char **args)
 		execve(path, args, data->envp);
 		free(path);
 	}
-	exit(print_err(CMD_NOT_FOUND, args[0], MSG_CMD_NOT_FOUND));
+	return (print_err(CMD_NOT_FOUND, args[0], MSG_CMD_NOT_FOUND));
 }
 
 static int	exec_leaf(t_data *data, char **args)
@@ -45,7 +45,9 @@ static int	exec_leaf(t_data *data, char **args)
 		return (print_err(1, 0, "no args"));
 	if (is_builtin(args[0]))
 		return (exec_builtin(data, args));
-	pid = fork();
+	pid = 0;
+	if (!data->in_pipe)
+		pid = fork();
 	if (pid < 0)
 		status = print_errno(1, 0);
 	else if (pid)
@@ -58,7 +60,7 @@ static int	exec_leaf(t_data *data, char **args)
 			status = WTERMSIG(status);
 	}
 	else
-		exec_extern(data, args);
+		exit(exec_extern(data, args));
 	return (status);
 }
 
@@ -76,10 +78,18 @@ static int	exec_and_or(t_data *data, t_ast const *ast)
 
 int	exec_ast(t_data *data, t_ast *ast)
 {
+	const int	old_in_pipe = data->in_pipe;
+	int			status;
+
 	if (ast == 0)
 		return (print_err(1, 0, "cannot execute null ast"));
 	if (ast->type == NODE_GROUP)
-		return (exec_ast(data, buffer_last(&ast->children)));
+	{
+		data->in_pipe = 0;
+		status = exec_ast(data, buffer_last(&ast->children));
+		data->in_pipe = old_in_pipe;
+		return (status);
+	}
 	if (ast->type == NODE_OR || ast->type == NODE_AND)
 		return (exec_and_or(data, ast));
 	if (ast->type == NODE_PIPE)

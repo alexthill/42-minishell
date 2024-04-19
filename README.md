@@ -2,14 +2,14 @@
 - Display a prompt
 - Have a working history
 - Search and launch the right executable
+- Pipes
 - && and || with parenthesis for priorities
 - echo
 
 ## Todo-List
 - Hanlde quotes (single and double) in the tokenizer
 - Implement redirections (<, >, << and >>), need to extend the parser
-- Pipes (Alex corrently working on it)
-- Handle environment variables (can resuse the code to extract the path)
+- Handle environment variables (can resuse the code from path extraction)
 - Handle $?
 - Hanlde signals (ctrl-C, ctrl-D and ctrl-\) in interactive mode
 - Implement builins:
@@ -20,6 +20,7 @@
 	- env with no options or arguments
 - write automated valgrind tests for memory leaks
 - better error messages on syntax errors
+- bonus: wildcards `*` for current working directory
 
 ## Known Bugs
 - Some syntax (missing space before or after parenthesis) is not tokenized correctly

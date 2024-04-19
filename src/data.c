@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 10:00:00 by athill            #+#    #+#             */
-/*   Updated: 2024/04/16 16:36:48 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/19 10:20:45 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	data_init(t_data *data, int argc, char **argv, char **envp)
 	data->path = path_extract(envp);
 	data->is_tty = isatty(STDIN_FILENO);
 	data->exit = 0;
+	data->in_pipe = 0;
 	data->last_status = 0;
 	print_err_full(data->prog, 0, 0);
 	if (data->path == 0)
