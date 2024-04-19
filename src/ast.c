@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 16:00:11 by athill            #+#    #+#             */
-/*   Updated: 2024/04/18 11:34:01 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/19 14:09:43 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_ast	*ast_new(t_node_type type, void *element)
 		exit(print_errno(1, 0));
 	ast->type = type;
 	buffer_init(&ast->children);
+	buffer_init(&ast->redirs);
 	if (element)
 		buffer_push(&ast->children, element);
 	return (ast);
