@@ -1,0 +1,7 @@
+parenthesis			(echo a)
+parenthesis_and		(echo a && echo b)
+parenthesis_or		(echo a || echo b)
+parenthesis_and_or	(echo && echo a || echo b)
+parenthesis_nested1	(echo a && (echo b || echo c))
+parenthesis_nested2	((echo b || echo c) && echo d)
+parenthesis_nested3	(echo a && (echo b || echo c) && echo d)
