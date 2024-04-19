@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:24:31 by athill            #+#    #+#             */
-/*   Updated: 2024/04/18 15:38:51 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/19 10:19:45 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct s_data
 	char			**path;
 	int				is_tty;
 	int				exit;
+	int				in_pipe;
 	unsigned char	last_status;
 }	t_data;
 

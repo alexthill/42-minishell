@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 15:39:06 by athill            #+#    #+#             */
-/*   Updated: 2024/04/18 16:46:35 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/19 10:30:21 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ static int	wait_for_children(t_ast *ast, pid_t *pids)
 	status = 0;
 	while (++i < ast->children.len)
 	{
-		printf("wait for process %i\n", pids[i]);
 		status = 0;
 		if (waitpid(pids[i], &status, 0) < 0)
 			print_errno(1, "waitpid");
@@ -46,7 +45,6 @@ int	exec_pipe(t_data *data, t_ast *ast)
 	size_t	i;
 	int		fd_in;
 
-	printf("start pipe of len %li\n", ast->children.len);
 	pids = malloc(ast->children.len * sizeof(pid_t));
 	if (pids == 0)
 		return (print_errno(1, 0));
@@ -63,8 +61,6 @@ int	exec_pipe(t_data *data, t_ast *ast)
 			return (print_errno(1, 0));
 		if (pids[i] == 0)
 		{
-			//if (i != ast->children.len - 1)
-			//	close(link[0]);
 			if (i != 0)
 			{
 				dup2(fd_in, 0);
@@ -72,16 +68,20 @@ int	exec_pipe(t_data *data, t_ast *ast)
 			}
 			if (i != ast->children.len - 1)
 			{
+				close(link[0]);
 				dup2(link[1], 1);
 				close(link[1]);
 			}
+			data->in_pipe = 1;
 			return (exec_ast(data, ast->children.ptr[i]));
 		}
-		printf("spawned process %i\n", pids[i]);
 		if (i != 0)
 			close(fd_in);
 		if (i != ast->children.len - 1)
+		{
+			fd_in = link[0];
 			close(link[1]);
+		}
 	}
 	return (wait_for_children(ast, pids));
 }
