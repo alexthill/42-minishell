@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 15:39:06 by athill            #+#    #+#             */
-/*   Updated: 2024/04/19 10:30:21 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/22 14:41:47 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <unistd.h>
 #include "ast.h"
 #include "minishell.h"
+#include "utils.h"
 
 static int	wait_for_children(t_ast *ast, pid_t *pids)
 {
@@ -25,15 +26,7 @@ static int	wait_for_children(t_ast *ast, pid_t *pids)
 	i = -1;
 	status = 0;
 	while (++i < ast->children.len)
-	{
-		status = 0;
-		if (waitpid(pids[i], &status, 0) < 0)
-			print_errno(1, "waitpid");
-		if (WIFEXITED(status))
-			status = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-			status = WTERMSIG(status);
-	}
+		status = wait_for_process(pids[i]);
 	free(pids);
 	return (status);
 }
@@ -48,7 +41,7 @@ int	exec_pipe(t_data *data, t_ast *ast)
 	pids = malloc(ast->children.len * sizeof(pid_t));
 	if (pids == 0)
 		return (print_errno(1, 0));
-	fd_in = 0;
+	fd_in = data->infile;
 	i = -1;
 	while (++i < ast->children.len)
 	{
@@ -61,7 +54,7 @@ int	exec_pipe(t_data *data, t_ast *ast)
 			return (print_errno(1, 0));
 		if (pids[i] == 0)
 		{
-			if (i != 0)
+			if (fd_in != 0)
 			{
 				dup2(fd_in, 0);
 				close(fd_in);
@@ -73,7 +66,7 @@ int	exec_pipe(t_data *data, t_ast *ast)
 				close(link[1]);
 			}
 			data->in_pipe = 1;
-			return (exec_ast(data, ast->children.ptr[i]));
+			exit(exec_ast(data, ast->children.ptr[i]));
 		}
 		if (i != 0)
 			close(fd_in);
