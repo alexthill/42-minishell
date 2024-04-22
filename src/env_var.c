@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 13:19:01 by ehamm             #+#    #+#             */
-/*   Updated: 2024/04/22 14:05:40 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/04/22 17:09:00 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 t_list *env_var_extract(char **envp)
 {
 	char	**splitted;
-	t_envvar	*var;
+	t_env	*var;
 	t_list	 *env;
 	
 	env = 0;
@@ -29,7 +29,7 @@ t_list *env_var_extract(char **envp)
 			free(splitted);
 			return (0);
 		}
-		var = malloc(sizeof(t_envvar));
+		var = malloc(sizeof(t_env));
 		var->name = splitted[0];
 		var->value = splitted[1];
 		free(splitted);
@@ -80,6 +80,6 @@ char	**ft_split2(const char *s, char c)
 	array = malloc((str_count + 1) * sizeof(char *));
 	if (array == 0)
 		return (0);
-	ft_split_helper(s, c, array);
+	ft_split_helper2(s, c, array);
 	return (array);
 }

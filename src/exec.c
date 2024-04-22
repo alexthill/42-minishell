@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 10:29:17 by athill            #+#    #+#             */
-/*   Updated: 2024/04/19 10:17:38 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/22 16:38:18 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "builtins.h"
 #include "libft.h"
 #include "minishell.h"
+#include "utils.h"
 
 static int	exec_extern(t_data *data, char **args)
 {
@@ -36,32 +37,31 @@ static int	exec_extern(t_data *data, char **args)
 	return (print_err(CMD_NOT_FOUND, args[0], MSG_CMD_NOT_FOUND));
 }
 
-static int	exec_leaf(t_data *data, char **args)
+static int	exec_leaf(t_data *data, t_ast *ast)
 {
 	pid_t	pid;
 	int		status;
+	char	**args;
 
+	args = (char **)ast->children.ptr;
 	if (args == 0 || args[0] == 0)
 		return (print_err(1, 0, "no args"));
+	status = check_redirs(data, &ast->redirs);
+	if (status)
+		return (status);
 	if (is_builtin(args[0]))
 		return (exec_builtin(data, args));
 	pid = 0;
 	if (!data->in_pipe)
 		pid = fork();
 	if (pid < 0)
-		status = print_errno(1, 0);
-	else if (pid)
-	{
-		if (waitpid(pid, &status, 0) < 0)
-			return (print_errno(1, "waitpid"));
-		if (WIFEXITED(status))
-			status = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-			status = WTERMSIG(status);
-	}
-	else
-		exit(exec_extern(data, args));
-	return (status);
+		return (print_errno(1, 0));
+	if (pid)
+		return (wait_for_process(pid));
+	status = exec_redirs(data);
+	if (status)
+		exit(status);
+	exit(exec_extern(data, args));
 }
 
 static int	exec_and_or(t_data *data, t_ast const *ast)
@@ -83,23 +83,23 @@ int	exec_ast(t_data *data, t_ast *ast)
 
 	if (ast == 0)
 		return (print_err(1, 0, "cannot execute null ast"));
+	status = 1;
 	if (ast->type == NODE_GROUP)
 	{
 		data->in_pipe = 0;
 		status = exec_ast(data, buffer_last(&ast->children));
 		data->in_pipe = old_in_pipe;
-		return (status);
 	}
-	if (ast->type == NODE_OR || ast->type == NODE_AND)
-		return (exec_and_or(data, ast));
-	if (ast->type == NODE_PIPE)
-		return (exec_pipe(data, ast));
-	if (ast->type == NODE_LEAF)
+	else if (ast->type == NODE_OR || ast->type == NODE_AND)
+		status = exec_and_or(data, ast);
+	else if (ast->type == NODE_PIPE)
+		status = exec_pipe(data, ast);
+	else if (ast->type == NODE_LEAF)
 	{
 		buffer_push(&ast->children, 0);
-		return (exec_leaf(data, (char **)ast->children.ptr));
+		status = reset_redirs(data, exec_leaf(data, ast));
 	}
-	return (print_err(1, 0, "not implemented"));
+	return (status);
 }
 
 int	exec_line(t_data *data, char const *line)
