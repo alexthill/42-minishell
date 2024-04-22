@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:24:31 by athill            #+#    #+#             */
-/*   Updated: 2024/04/22 16:12:19 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/22 16:36:25 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,17 @@ typedef struct s_data
 	int				outfile;
 }	t_data;
 
+<<<<<<< HEAD
 // error.c
+=======
+typedef struct s_envvar
+{
+	char	*name;
+	char	*value;
+	t_list	*next;
+}	t_envvar;
+
+>>>>>>> f582958583b8f335b83aed9364838833153239aa
 int		print_err(int code, char const *s, char const *msg);
 int		print_errno(int is_err, char const *s);
 int		print_err_full(char *prog, char const *extra, char const *msg);
@@ -50,7 +60,13 @@ int		data_free(t_data *data);
 char	**path_extract(char **envp);
 char	*path_concat(char *p1, char *p2);
 
+<<<<<<< HEAD
 // exec.c
+=======
+t_list *env_var_extract(char **envp);
+char	**ft_split2(const char *s, char c);
+
+>>>>>>> f582958583b8f335b83aed9364838833153239aa
 int		exec_line(t_data *data, char const *line);
 int		exec_ast(t_data *data, t_ast *ast);
 int		exec_pipe(t_data *data, t_ast *ast);
