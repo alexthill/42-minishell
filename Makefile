@@ -12,6 +12,8 @@ SRCS = src/main.c \
 	   src/exec_pipe.c \
 	   src/path.c \
 	   src/utils.c \
+	   src/builtins/cd.c \
+	   src/builtins/echo.c \
 	   src/builtins/exit.c \
 	   src/builtins/utils.c \
 	   src/get_next_line.c \
