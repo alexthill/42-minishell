@@ -8,6 +8,7 @@ SRCS = src/main.c \
 	   src/ast_test.c \
 	   src/data.c \
 	   src/error.c \
+	   src/env_var.c \
 	   src/exec.c \
 	   src/exec_pipe.c \
 	   src/path.c \
