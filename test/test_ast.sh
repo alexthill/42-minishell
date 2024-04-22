@@ -17,6 +17,12 @@ test80=("((((echo a))))" "(: (: (: (: [LEAF: echo a]))))")
 test81=("((echo a) && b)" "(: [&&: (: [LEAF: echo a]) [LEAF: b]])")
 test82=("(b && (echo a))" "(: [&&: [LEAF: b] (: [LEAF: echo a])])")
 test83=("(b && (echo a) && c)" "(: [&&: [&&: [LEAF: b] (: [LEAF: echo a])] [LEAF: c]])")
+test9=("cat < in>out<<here>>append" "[LEAF: < in > out << here >> append: cat]")
+test91=("> out cat < in" "[LEAF: > out < in: cat]")
+test92=("echo a | > out cat < in" "[|: [LEAF: echo a] [LEAF: > out < in: cat]]")
+test93=("echo a || > out cat" "[||: [LEAF: echo a] [LEAF: > out: cat]]")
+test94=("cat < in || echo a" "[||: [LEAF: < in: cat] [LEAF: echo a]]")
+test95=("< in tee > out file" "[LEAF: < in > out: tee file]")
 
 tests=(
 	test1[@]
@@ -35,6 +41,12 @@ tests=(
 	test81[@]
 	test82[@]
 	test83[@]
+	test9[@]
+	test91[@]
+	test92[@]
+	test93[@]
+	test94[@]
+	test95[@]
 )
 
 for tst in "${tests[@]}"; do
