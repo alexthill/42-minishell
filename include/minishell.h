@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:24:31 by athill            #+#    #+#             */
-/*   Updated: 2024/04/22 15:17:53 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/04/22 16:34:43 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_envvar
 {
 	char	*name;
 	char	*value;
+	t_list	next;
 }	t_envvar;
 
 int		print_err(int code, char const *s, char const *msg);
@@ -52,7 +53,6 @@ char	**path_extract(char **envp);
 char	*path_concat(char *p1, char *p2);
 
 t_list *env_var_extract(char **envp);
-static void	ft_split_helper2(const char *s, char c, char **array);
 char	**ft_split2(const char *s, char c);
 
 int		exec_line(t_data *data, char const *line);
