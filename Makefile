@@ -10,6 +10,7 @@ SRCS = src/main.c \
 	   src/error.c \
 	   src/exec.c \
 	   src/exec_pipe.c \
+	   src/exec_redirs.c \
 	   src/path.c \
 	   src/utils.c \
 	   src/builtins/cd.c \

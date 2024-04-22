@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 10:00:00 by athill            #+#    #+#             */
-/*   Updated: 2024/04/19 10:20:45 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/22 09:47:36 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int	data_init(t_data *data, int argc, char **argv, char **envp)
 	data->exit = 0;
 	data->in_pipe = 0;
 	data->last_status = 0;
+	data->infile = STDIN_FILENO;
+	data->outfile = STDOUT_FILENO;
 	print_err_full(data->prog, 0, 0);
 	if (data->path == 0)
 		return (print_errno(1, 0));

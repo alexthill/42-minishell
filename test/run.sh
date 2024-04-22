@@ -52,9 +52,6 @@ handle_diff() {
 
 execute_file_tests() {
 	filename=$1
-	if [[ $filename == test_cases/bonus/* && $bonus -eq "0" ]]; then
-		continue
-	fi
 	echo ""
 	echo "==== $filename ===="
 	while read line; do
@@ -74,6 +71,9 @@ if [[ "$1" == /* ]]; then
 	execute_file_tests "test_cases$1"
 else
 	for filename in $(find test_cases -type f -exec echo "{}" \;); do
+		if [[ $filename == test_cases/bonus/* && $bonus -eq "0" ]]; then
+			continue
+		fi
 		execute_file_tests "$filename"
 	done
 fi

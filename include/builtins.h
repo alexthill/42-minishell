@@ -19,7 +19,7 @@ int		exec_builtin(t_data *data, char **args);
 int		is_builtin(char const *name);
 
 int		cmd_exit(t_data *data, char **args);
-int		cmd_echo(char **args);
-int		cmd_cd(t_data *data,char **args);
+int		cmd_echo(t_data *data, char **args);
+int		cmd_cd(t_data *data, char **args);
 
 #endif

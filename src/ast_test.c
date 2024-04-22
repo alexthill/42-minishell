@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:51:03 by athill            #+#    #+#             */
-/*   Updated: 2024/04/18 11:50:03 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/22 08:41:32 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,23 @@
 #include "buffer.h"
 #include "minishell.h"
 
+void	redir_print(t_redir *redir)
+{
+	if (redir->type == REDIR_IN)
+		printf(" < ");
+	else if (redir->type == REDIR_OUT)
+		printf(" > ");
+	else if (redir->type == REDIR_HEREDOC)
+		printf(" << ");
+	else if (redir->type == REDIR_APPEND)
+		printf(" >> ");
+	printf("%s", redir->file);
+}
+
 void	ast_print(t_ast *ast)
 {
 	size_t	i;
 
-	i = -1;
 	if (ast->type == NODE_LEAF)
 		printf("[LEAF:");
 	else if (ast->type == NODE_AND)
@@ -32,6 +44,12 @@ void	ast_print(t_ast *ast)
 		printf("(:");
 	else
 		printf("[?%i:", ast->type);
+	i = -1;
+	while (++i < ast->redirs.len)
+		redir_print(ast->redirs.ptr[i]);
+	if (ast->redirs.len)
+		printf(":");
+	i = -1;
 	while (++i < ast->children.len)
 	{
 		printf(" ");

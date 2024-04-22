@@ -6,14 +6,15 @@
 /*   By: elo <elo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 15:11:48 by elo               #+#    #+#             */
-/*   Updated: 2024/04/22 11:01:27 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/22 16:39:06 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "libft.h"
+#include "minishell.h"
 
-int	cmd_echo(char **args)
+int	cmd_echo(t_data *data, char **args)
 {
 	int	i;
 	int	newline;
@@ -27,12 +28,12 @@ int	cmd_echo(char **args)
 	}
 	while (args[i])
 	{
-		ft_putstr_fd(args[i], 1);
+		ft_putstr_fd(args[i], data->outfile);
 		i++;
 		if (args[i])
-			ft_putchar_fd(' ', 1);
+			ft_putchar_fd(' ', data->outfile);
 	}
 	if (newline)
-		ft_putchar_fd('\n', 1);
+		ft_putchar_fd('\n', data->outfile);
 	return (0);
 }

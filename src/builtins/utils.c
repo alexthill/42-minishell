@@ -19,7 +19,7 @@ int	exec_builtin(t_data *data, char **args)
 	if (ft_streq(args[0], "exit"))
 		return (cmd_exit(data, args));
 	else if (ft_streq(args[0], "echo"))
-		return (cmd_echo(args));
+		return (cmd_echo(data, args));
 	else if (ft_streq(args[0], "cd"))
 		return (cmd_cd(data,args));
 	return (0);
