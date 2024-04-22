@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:24:31 by athill            #+#    #+#             */
-/*   Updated: 2024/04/19 10:19:45 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/22 13:16:46 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,12 @@ typedef struct s_data
 	int				in_pipe;
 	unsigned char	last_status;
 }	t_data;
+
+typedef struct s_envvar
+{
+	char	*type;
+	char	*value;
+}	t_envvar;
 
 int		print_err(int code, char const *s, char const *msg);
 int		print_errno(int is_err, char const *s);
