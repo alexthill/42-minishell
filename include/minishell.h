@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:24:31 by athill            #+#    #+#             */
-/*   Updated: 2024/04/22 16:34:43 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/04/22 16:36:25 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef struct s_envvar
 {
 	char	*name;
 	char	*value;
-	t_list	next;
+	t_list	*next;
 }	t_envvar;
 
 int		print_err(int code, char const *s, char const *msg);
