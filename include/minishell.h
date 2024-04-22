@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:24:31 by athill            #+#    #+#             */
-/*   Updated: 2024/04/22 13:16:46 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/04/22 13:57:15 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef struct s_data
 
 typedef struct s_envvar
 {
-	char	*type;
+	char	*name;
 	char	*value;
 }	t_envvar;
 
