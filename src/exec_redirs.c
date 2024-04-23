@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 09:41:17 by athill            #+#    #+#             */
-/*   Updated: 2024/04/22 16:34:25 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/23 09:55:37 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,17 @@ int	exec_redirs(t_data *data)
 
 int	reset_redirs(t_data *data, int status)
 {
-	data->infile = STDIN_FILENO;
-	data->outfile = STDOUT_FILENO;
+	if (data->infile != STDIN_FILENO)
+	{
+		if (data->infile != -1)
+			close(data->infile);
+		data->infile = STDIN_FILENO;
+	}
+	if (data->outfile != STDOUT_FILENO)
+	{
+		if (data->outfile != -1)
+			close(data->outfile);
+		data->outfile = STDOUT_FILENO;
+	}
 	return (status);
 }

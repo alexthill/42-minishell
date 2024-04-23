@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 16:00:11 by athill            #+#    #+#             */
-/*   Updated: 2024/04/19 14:09:43 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/23 09:13:57 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,13 @@ t_ast	*ast_new(t_node_type type, void *element)
 void	ast_free(void *node)
 {
 	t_ast	*ast;
+	size_t	i;
 
 	ast = node;
+	i = -1;
+	while (++i < ast->redirs.len)
+		free(ast->redirs.ptr[i]);
+	free(ast->redirs.ptr);
 	if (ast->type == NODE_LEAF)
 		free(ast->children.ptr);
 	else
