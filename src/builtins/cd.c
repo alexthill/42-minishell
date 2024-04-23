@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 16:09:43 by elo               #+#    #+#             */
-/*   Updated: 2024/04/23 12:46:24 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/04/23 17:16:39 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,23 +56,23 @@ int	set_env_var(t_data *data, char *name, char *value)
 	return (1);
 }
 
-int	cmd_cd(char **args, t_data *data)
+int	cmd_cd(t_data *data, char **args)
 {
 	char *oldpwd;
 	char *path;
+	char *curr;
 
-	oldpwd = get_env_var(data, "PWD");
-	if (oldpwd == NULL)
+	if (args[1] == 0 || ft_streq(args[1], "~") == 0)
+		path = get_env_var(data, "HOME");
+	else
+		path = args[1];
+	if (chdir(path) == -1)
 	{
 		print_errno(0, "MSG_CD_ERR");
 		return (1);
 	}
-	if (args[1] == 0)
-		path = get_env_var(data, "HOME");
-	else
-		path = args[1];
-
-	if (chdir(path) == -1)
+	oldpwd = get_env_var(data, "PWD");
+	if (oldpwd == NULL)
 	{
 		print_errno(0, "MSG_CD_ERR");
 		return (1);
@@ -82,10 +82,18 @@ int	cmd_cd(char **args, t_data *data)
 		print_errno(0, "MSG_CD_ERR");
 		return (1);
 	}
-	if (set_env_var(data, "PWD", path) == 1)
+	curr = getcwd(NULL, 0);
+	if (curr == NULL)
 	{
 		print_errno(0, "MSG_CD_ERR");
 		return (1);
 	}
+	if (set_env_var(data, "PWD", curr) == 1)
+	{
+		free(curr);
+		print_errno(0, "MSG_CD_ERR");
+		return (1);
+	}
+	free(curr);
 	return (0);
 }
