@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:24:31 by athill            #+#    #+#             */
-/*   Updated: 2024/04/22 17:10:59 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/04/23 11:06:50 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,14 @@
 # define MSG_NUM_ARG_REQUIRED	"numeric argument required"
 # define MSG_CMD_NOT_FOUND		"command not found"
 
+
+typedef struct s_env
+{
+	char			*name;
+	char			*value;
+	struct s_env	*next;
+}	t_env;
+
 typedef struct s_data
 {
 	char			*prog;
@@ -36,14 +44,8 @@ typedef struct s_data
 	unsigned char	last_status;
 	int				infile;
 	int				outfile;
+	t_env			*env;
 }	t_data;
-
-typedef struct s_env
-{
-	char			*name;
-	char			*value;
-	struct s_env	*next;
-}	t_env;
 
 // error.c
 int		print_err(int code, char const *s, char const *msg);
@@ -57,9 +59,6 @@ int		data_free(t_data *data);
 // path.c
 char	**path_extract(char **envp);
 char	*path_concat(char *p1, char *p2);
-
-t_list *env_var_extract(char **envp);
-char	**ft_split2(const char *s, char c);
 
 int		exec_line(t_data *data, char const *line);
 int		exec_ast(t_data *data, t_ast *ast);
