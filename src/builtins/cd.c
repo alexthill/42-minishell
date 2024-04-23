@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 16:09:43 by elo               #+#    #+#             */
-/*   Updated: 2024/04/23 11:12:22 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/04/23 12:46:24 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,12 @@ char	*get_env_var(t_data *data, char *name)
 {
 	t_env	*node;
 
+	if (data == NULL || data->env == NULL)
+		return (NULL);
 	node = data->env;
 	while (node)
 	{
-		if (ft_streq(node->name, name))
+		if (node->name != NULL && ft_streq(node->name, name))
 			return (node->value);
 		node = node->next;
 	}
@@ -33,6 +35,7 @@ char	*get_env_var(t_data *data, char *name)
 int	set_env_var(t_data *data, char *name, char *value)
 {
 	t_env	*node;
+	char	*new_value;
 
 	if (name == NULL || data == NULL || value == NULL)
 		return (1);
@@ -41,8 +44,11 @@ int	set_env_var(t_data *data, char *name, char *value)
 	{
 		if (ft_streq(node->name, name))
 		{
+			new_value = ft_strdup(value);
+			if (new_value == NULL)
+				return (1);
 			free(node->value);
-			node->value = ft_strdup(value);
+			node->value = new_value;
 			return (0);
 		}
 		node = node->next;
