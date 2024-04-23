@@ -19,8 +19,8 @@ SRCS = src/main.c \
 	   src/builtins/exit.c \
 	   src/builtins/utils.c \
 	   src/get_next_line.c \
-	   src/buffer.c \
-	   src/buffer2.c
+	   src/structures/buffer.c \
+	   src/structures/buffer2.c
 OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)
