@@ -23,7 +23,15 @@ rm -rf diffs
 mkdir diffs
 
 handle_cmd() {
-	eval "$2" > outfile 2> out_stderr
+	mkdir temp
+	cd temp
+	echo "infile content" > infile
+	echo "infile second line" >> infile
+	touch readonly
+	chmod -wx readonly
+	eval "$2" > ../outfile 2> ../out_stderr
+	cd ..
+	rm -rf temp
 	res="$?"
 	mv outfile "$1" 2> /dev/null
 	err=$(cat out_stderr | sed 's/[^:]\+: \(line [^:]\+: \)\?/[progname]: /')
@@ -59,7 +67,7 @@ execute_file_tests() {
 		echo -n "${array[1]} "
 		diff="diffs/${array[0]}.diff"
 		CMD1="echo \"${array[1]}\" | tr ';' '\\n' | bash"
-		CMD2="echo \"${array[1]}\" | tr ';' '\\n' | ../minishell"
+		CMD2="echo \"${array[1]}\" | tr ';' '\\n' | ../../minishell"
 		touch expected
 		handle_cmd "expected" "$CMD1"
 		handle_cmd "found" "$CMD2"
