@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:24:31 by athill            #+#    #+#             */
-/*   Updated: 2024/04/23 16:22:59 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/04/23 17:25:19 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 # define MSG_TOO_MANY_ARGS		"too many arguments"
 # define MSG_NUM_ARG_REQUIRED	"numeric argument required"
 # define MSG_CMD_NOT_FOUND		"command not found"
-
 
 typedef struct s_env
 {
@@ -69,12 +68,12 @@ int		check_redirs(t_data *data, t_buffer *redirs);
 int		exec_redirs(t_data *data);
 int		reset_redirs(t_data *data, int status);
 
-t_env 	*env_var_extract(char **envp);
+t_env	*env_var_extract(char **envp);
 void	ft_lstadd_front2(t_env **lst, t_env *new);
 t_env	*ft_lstnew2(void *name, void *value);
 char	**ft_split2(const char *s, char c);
 char	*get_env_var(t_data *data, char *name);
-int		set_env_var(t_data *data, char *name,char *value);
+int		set_env_var(t_data *data, char *name, char *value);
 char	**ft_split2(const char *s, char c);
 
 #endif

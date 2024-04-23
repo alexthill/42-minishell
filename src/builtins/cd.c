@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 16:09:43 by elo               #+#    #+#             */
-/*   Updated: 2024/04/23 17:16:39 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/04/23 17:28:13 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ int	set_env_var(t_data *data, char *name, char *value)
 
 int	cmd_cd(t_data *data, char **args)
 {
-	char *oldpwd;
-	char *path;
-	char *curr;
+	char	*oldpwd;
+	char	*path;
+	char	*curr;
 
 	if (args[1] == 0 || ft_streq(args[1], "~") == 0)
 		path = get_env_var(data, "HOME");
@@ -79,6 +79,7 @@ int	cmd_cd(t_data *data, char **args)
 	}
 	if (set_env_var(data, "OLDPWD", oldpwd) == 1)
 	{
+		free(oldpwd);
 		print_errno(0, "MSG_CD_ERR");
 		return (1);
 	}
