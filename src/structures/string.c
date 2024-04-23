@@ -6,11 +6,11 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 13:05:18 by athill            #+#    #+#             */
-/*   Updated: 2024/04/23 13:38:48 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/23 14:10:45 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "string.h"
+#include "string_buffer.h"
 #include "libft.h"
 
 void	string_init(t_string *buf)
