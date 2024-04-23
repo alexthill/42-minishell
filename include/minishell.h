@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:24:31 by athill            #+#    #+#             */
-/*   Updated: 2024/04/23 11:06:50 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/04/23 11:19:00 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,9 @@ int		exec_pipe(t_data *data, t_ast *ast);
 int		check_redirs(t_data *data, t_buffer *redirs);
 int		exec_redirs(t_data *data);
 int		reset_redirs(t_data *data, int status);
+
+char	*get_env_var(t_data *data, char *name);
+int		set_env_var(t_data *data, char *name,char *value);
+char	**ft_split2(const char *s, char c);
 
 #endif
