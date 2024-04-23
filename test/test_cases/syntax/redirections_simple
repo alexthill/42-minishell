@@ -8,3 +8,5 @@ redir_infail		cat < fail
 redir_outfail		cat infile > readonly; ls -l --time-style=+
 redir_inoutfail		cat < fail > readonly; ls -l --time-style=+
 redir_outinfail		cat > readonly < fail; ls -l --time-style=+
+redir_heredoc		cat << EOF;hello;there;EOF
+redir_heredoc2		grep o << EOF > out;hello;there;EOF; ls -l --time-style=+
