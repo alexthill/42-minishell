@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:32:11 by athill            #+#    #+#             */
-/*   Updated: 2024/04/23 17:27:32 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/04/23 17:54:09 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,13 @@ int	exec_builtin(t_data *data, char **args)
 		return (cmd_echo(data, args));
 	else if (ft_streq(args[0], "cd"))
 		return (cmd_cd(data, args));
+	else if (ft_streq(args[0], "pwd"))
+		return(cmd_pwd(data,args));
 	return (0);
 }
 
 int	is_builtin(char const *name)
 {
 	return (ft_streq(name, "exit") || ft_streq(name, "cd") || ft_streq(name,
-			"echo"));
+			"echo") || ft_streq(name, "pwd"));
 }

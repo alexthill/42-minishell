@@ -6,13 +6,12 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 16:09:43 by elo               #+#    #+#             */
-/*   Updated: 2024/04/23 17:28:13 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/04/23 18:01:50 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
-#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 
