@@ -6,14 +6,14 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 13:19:01 by ehamm             #+#    #+#             */
-/*   Updated: 2024/04/23 16:45:32 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/04/23 17:26:55 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 void	ft_lstadd_front2(t_env **lst, t_env *new)
 {
@@ -33,6 +33,7 @@ t_env	*ft_lstnew2(void *name, void *value)
 	lst->value = value;
 	return (lst);
 }
+
 static void	ft_split_helper2(const char *s, char c, char **array)
 {
 	size_t	i;
@@ -82,9 +83,9 @@ char	**ft_split2(const char *s, char c)
 
 t_env	*env_var_extract(char **envp)
 {
-	char **splitted;
-	t_env *var;
-	t_env *env;
+	char	**splitted;
+	t_env	*var;
+	t_env	*env;
 
 	env = 0;
 	while (*envp)
