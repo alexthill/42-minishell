@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 15:57:41 by athill            #+#    #+#             */
-/*   Updated: 2024/04/22 09:25:03 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/24 19:06:41 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/wait.h>
 #include "minishell.h"
+#include <sys/wait.h>
 
 void	fn_do_nothing(void *ptr)
 {
@@ -29,7 +29,7 @@ int	is_meta(char c)
 		|| c == ')' || c == '<' || c == '>');
 }
 
-int	wait_for_process(pid_t	pid)
+int	wait_for_process(pid_t pid)
 {
 	int	status;
 
@@ -41,3 +41,16 @@ int	wait_for_process(pid_t	pid)
 		return (WTERMSIG(status));
 	return (0);
 }
+/*void	free_node(t_env *node)
+{
+	t_env *tmp;
+
+	while (node != NULL)
+	{
+		tmp = node;
+		node = node->next;
+		free(tmp->name);
+		free(tmp->value);
+		free(tmp);
+	}
+}*/

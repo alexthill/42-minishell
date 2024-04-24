@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 13:19:01 by ehamm             #+#    #+#             */
-/*   Updated: 2024/04/23 17:26:55 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/04/24 19:07:57 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,11 +96,14 @@ t_env	*env_var_extract(char **envp)
 			free(splitted);
 			return (0);
 		}
-		var = malloc(sizeof(t_env));
-		var->name = splitted[0];
-		var->value = splitted[1];
+		var = ft_lstnew2(splitted[0], splitted[1]);
+		if(var == NULL)
+		{
+			free(splitted);
+			return(0);
+		}
+		ft_lstadd_front2(&env, var);
 		free(splitted);
-		ft_lstadd_front2(&env, ft_lstnew2(var->name, var->value));
 		envp++;
 	}
 	return (env);
