@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 09:42:56 by ehamm             #+#    #+#             */
-/*   Updated: 2024/04/24 13:55:36 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/04/24 15:55:11 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	print_export(t_data *data)
 	sort_export(data);
 	while (node)
 	{
-		printf("%s=%s\n", node->name, node->value);
+		printf("declare -x %s=\"%s\"\n", node->name, node->value);
 		node = node->next;
 	}
 	return (0);
