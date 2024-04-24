@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 12:39:47 by athill            #+#    #+#             */
-/*   Updated: 2024/04/23 16:47:07 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/24 10:23:07 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static int	expand_return_status(t_data *data, t_string *buf)
 static int	expand_var(t_data *data, char const *s, t_string *buf)
 {
 	char	*name;
+	char	*value;
 	size_t	i;
 
 	if (s[0] == '?')
@@ -42,9 +43,9 @@ static int	expand_var(t_data *data, char const *s, t_string *buf)
 		name = ft_substr(s, 0, i);
 		if (name == 0)
 			exit(print_errno(1, 0));
-		string_push(buf, '[');
-		string_concat(buf, name);
-		string_push(buf, ']');
+		value = get_env_var(data, name);
+		if (value)
+			string_concat(buf, value);
 		free(name);
 	}
 	return (i);
@@ -61,7 +62,7 @@ char	*expand_string(t_data *data, char const *s)
 	{
 		if (*s == quote)
 			quote = 0;
-		else if (*s == '"' || *s == '\'')
+		else if (!quote && (*s == '"' || *s == '\''))
 			quote = *s;
 		else if (*s == '$' && quote != '\'')
 			s += expand_var(data, s + 1, &buf);
