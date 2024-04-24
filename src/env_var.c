@@ -6,37 +6,34 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 13:19:01 by ehamm             #+#    #+#             */
-/*   Updated: 2024/04/22 17:09:00 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/04/23 17:26:55 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "libft.h"
 #include "minishell.h"
+#include <stdio.h>
+#include <stdlib.h>
 
-t_list *env_var_extract(char **envp)
+void	ft_lstadd_front2(t_env **lst, t_env *new)
 {
-	char	**splitted;
-	t_env	*var;
-	t_list	 *env;
-	
-	env = 0;
-	while (*envp)
-	{
-		splitted = ft_split2(*envp, '=');
-		if (splitted == 0 || splitted[0] == 0)
-		{
-			free(splitted);
-			return (0);
-		}
-		var = malloc(sizeof(t_env));
-		var->name = splitted[0];
-		var->value = splitted[1];
-		free(splitted);
-		ft_lstadd_front(&env,ft_lstnew(var));
-	}
-	return (env);
+	new->next = *lst;
+	*lst = new;
 }
+
+t_env	*ft_lstnew2(void *name, void *value)
+{
+	t_env	*lst;
+
+	lst = malloc(sizeof(t_env));
+	if (lst == 0)
+		return (0);
+	lst->next = 0;
+	lst->name = name;
+	lst->value = value;
+	return (lst);
+}
+
 static void	ft_split_helper2(const char *s, char c, char **array)
 {
 	size_t	i;
@@ -49,14 +46,14 @@ static void	ft_split_helper2(const char *s, char c, char **array)
 		if (s[i] == c)
 		{
 			str_count = 2;
-			array[0] = ft_substr2(s,0,i);
-			array[1] = ft_substr2(s,i+1,ft_strlen(s));
-			break;
+			array[0] = ft_substr2(s, 0, i);
+			array[1] = ft_substr2(s, i + 1, ft_strlen(s));
+			break ;
 		}
 		i++;
 	}
-	if(str_count == 1)
-		array[0] = ft_substr2(s,0,ft_strlen(s));
+	if (str_count == 1)
+		array[0] = ft_substr2(s, 0, ft_strlen(s));
 	array[str_count] = 0;
 }
 
@@ -73,7 +70,7 @@ char	**ft_split2(const char *s, char c)
 		if (s[i] == c)
 		{
 			str_count = 2;
-			break;
+			break ;
 		}
 		i++;
 	}
@@ -82,4 +79,29 @@ char	**ft_split2(const char *s, char c)
 		return (0);
 	ft_split_helper2(s, c, array);
 	return (array);
+}
+
+t_env	*env_var_extract(char **envp)
+{
+	char	**splitted;
+	t_env	*var;
+	t_env	*env;
+
+	env = 0;
+	while (*envp)
+	{
+		splitted = ft_split2(*envp, '=');
+		if (splitted == 0 || splitted[0] == 0)
+		{
+			free(splitted);
+			return (0);
+		}
+		var = malloc(sizeof(t_env));
+		var->name = splitted[0];
+		var->value = splitted[1];
+		free(splitted);
+		ft_lstadd_front2(&env, ft_lstnew2(var->name, var->value));
+		envp++;
+	}
+	return (env);
 }
