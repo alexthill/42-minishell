@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 16:00:11 by athill            #+#    #+#             */
-/*   Updated: 2024/04/24 11:34:38 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/24 13:36:49 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ static int	continue_token(char const *s, char const *start, char quote)
 		return (0);
 	if (s == start || quote)
 		return (1);
-	return (!is_blank(*s) && is_meta(*s) == is_meta(*start)
-		&& *s != '(' && *s != ')');
+	return ((!is_meta(*s) && !is_meta(*start))
+		|| (is_meta(*start) && *s == *start && *s != '(' && *s != ')'));
 }
 
 int	ast_tokenize(char const *s, t_buffer *tokens, int quote)
