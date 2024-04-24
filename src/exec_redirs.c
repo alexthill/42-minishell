@@ -6,42 +6,39 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 09:41:17 by athill            #+#    #+#             */
-/*   Updated: 2024/04/23 10:34:40 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/24 15:35:32 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include "ast.h"
 #include "buffer.h"
 #include "minishell.h"
-#include "get_next_line.h"
 
-static int	read_here_doc(char *limiter)
+static int	read_here_doc(t_data *data, char *limiter)
 {
 	char	*line;
+	char	*expanded;
 	int		link[2];
-	size_t	len;
 
 	if (pipe(link) == -1)
 		return (-1);
 	while (1)
 	{
-		line = get_next_line(STDIN_FILENO);
-		len = ft_strlen(line);
-		if (line == 0 || line[len - 1] != '\n')
-		{
-			print_err(1, "here-doc delimited by end-of-file, wanted", limiter);
+		line = get_line(data, PROMPT_HEREDOC);
+		if (line == NULL || ft_streq(line, limiter))
 			break ;
-		}
-		line[len - 1] = '\0';
-		if (ft_streq(line, limiter))
-			break ;
-		line[len - 1] = '\n';
-		ft_putstr_fd(line, link[1]);
+		expanded = expand_string(data, line, 0);
 		free(line);
+		ft_putendl_fd(expanded, link[1]);
+		free(expanded);
 	}
-	free(line);
+	if (line == NULL)
+		print_err(1, "here-doc delimited by end-of-file, wanted", limiter);
+	else
+		free(line);
 	close(link[1]);
 	return (link[0]);
 }
@@ -55,7 +52,7 @@ static void	handle_redir(t_data *data, t_redir *redir)
 		if (data->infile != STDIN_FILENO)
 			close(data->infile);
 		if (redir->type == REDIR_HEREDOC)
-			data->infile = read_here_doc(redir->file);
+			data->infile = read_here_doc(data, redir->file);
 		else
 			data->infile = open(redir->file, O_RDONLY);
 	}

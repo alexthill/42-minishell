@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 12:39:47 by athill            #+#    #+#             */
-/*   Updated: 2024/04/24 10:23:07 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/24 15:27:33 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int	expand_var(t_data *data, char const *s, t_string *buf)
 	return (i);
 }
 
-char	*expand_string(t_data *data, char const *s)
+char	*expand_string(t_data *data, char const *s, int	handle_quotes)
 {
 	char		quote;
 	t_string	buf;
@@ -62,7 +62,7 @@ char	*expand_string(t_data *data, char const *s)
 	{
 		if (*s == quote)
 			quote = 0;
-		else if (!quote && (*s == '"' || *s == '\''))
+		else if (handle_quotes && !quote && (*s == '"' || *s == '\''))
 			quote = *s;
 		else if (*s == '$' && quote != '\'')
 			s += expand_var(data, s + 1, &buf);
@@ -87,7 +87,7 @@ char	**expand_args(t_data *data, size_t argc, char **argv)
 	args[0] = argv[0];
 	i = 0;
 	while (++i < argc)
-		args[i] = expand_string(data, argv[i]);
+		args[i] = expand_string(data, argv[i], 1);
 	args[i] = 0;
 	return (args);
 }

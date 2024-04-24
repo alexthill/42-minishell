@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:30:00 by athill            #+#    #+#             */
-/*   Updated: 2024/04/18 14:06:48 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/24 14:48:08 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,17 @@
 
 int	ast_test(char *s);
 
-static char	*get_line(t_data *data)
+char	*get_line(t_data *data, char const *prompt)
 {
 	char	*line;
+	size_t	len;
 
 	if (data->is_tty)
-		return (readline(PROMPT));
+		return (readline(prompt));
 	line = get_next_line(STDIN_FILENO);
-	if (line && *line && line[ft_strlen(line) - 1] == '\n')
-		line[ft_strlen(line) - 1] = '\0';
+	len = ft_strlen(line);
+	if (line && line[len - 1] == '\n')
+		line[len - 1] = '\0';
 	return (line);
 }
 
@@ -44,7 +46,7 @@ int	main(int argc, char **argv, char **envp)
 	while (data.exit == 0)
 	{
 		free(line);
-		line = get_line(&data);
+		line = get_line(&data, PROMPT);
 		if (!line)
 			break ;
 		if (line[0] == '\0')
