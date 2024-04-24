@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 15:57:41 by athill            #+#    #+#             */
-/*   Updated: 2024/04/24 19:06:41 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/04/24 19:16:00 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,3 @@ int	wait_for_process(pid_t pid)
 		return (WTERMSIG(status));
 	return (0);
 }
-/*void	free_node(t_env *node)
-{
-	t_env *tmp;
-
-	while (node != NULL)
-	{
-		tmp = node;
-		node = node->next;
-		free(tmp->name);
-		free(tmp->value);
-		free(tmp);
-	}
-}*/
