@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:24:31 by athill            #+#    #+#             */
-/*   Updated: 2024/04/24 13:57:38 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/04/24 14:56:28 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,9 @@ int		is_builtin(char const *name);
 int		cmd_cd(t_data *data, char **args);
 int		cmd_echo(t_data *data, char **args);
 int		cmd_exit(t_data *data, char **args);
-int		cmd_echo(t_data *data, char **args);
+int		cmd_export(t_data *data, char **args);
 int		cmd_cd(t_data *data, char **args);
-int		cmd_pwd(t_data *data,char **args);
+int		cmd_pwd(t_data *data, char **args);
+int		cmd_unset(t_data *data, char **args);
 
 #endif
