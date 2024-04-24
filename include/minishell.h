@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:24:31 by athill            #+#    #+#             */
-/*   Updated: 2024/04/23 17:25:19 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/04/24 10:55:09 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,15 @@ char	*expand_string(t_data *data, char const *s);
 char	**expand_args(t_data *data, size_t argc, char **argv);
 void	free_args(char **args);
 
+//env var manipulations
 t_env	*env_var_extract(char **envp);
-void	ft_lstadd_front2(t_env **lst, t_env *new);
-t_env	*ft_lstnew2(void *name, void *value);
-char	**ft_split2(const char *s, char c);
 char	*get_env_var(t_data *data, char *name);
 int		set_env_var(t_data *data, char *name, char *value);
+int		modify_or_add_env_variable(t_data *data, char *name, char *value);
+
+//utils 
+void	ft_lstadd_front2(t_env **lst, t_env *new);
+t_env	*ft_lstnew2(void *name, void *value);
 char	**ft_split2(const char *s, char c);
 
 #endif
