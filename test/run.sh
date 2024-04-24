@@ -65,8 +65,8 @@ execute_file_tests() {
 		IFS='	'; array=($line); unset IFS;
 		echo -n "${array[1]} "
 		diff="diffs/${array[0]}.diff"
-		CMD1="echo \"${array[1]}\" | tr ';' '\\n' | bash"
-		CMD2="echo \"${array[1]}\" | tr ';' '\\n' | ../../minishell"
+		CMD1="echo \"${array[1]//\"/\\\"}\" | tr ';' '\\n' | bash"
+		CMD2="echo \"${array[1]//\"/\\\"}\" | tr ';' '\\n' | ../../minishell"
 		touch expected
 		handle_cmd "expected" "$CMD1"
 		handle_cmd "found" "$CMD2"
