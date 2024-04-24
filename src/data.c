@@ -6,13 +6,14 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 10:00:00 by athill            #+#    #+#             */
-/*   Updated: 2024/04/22 16:50:53 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/04/23 17:53:41 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
 #include "libft.h"
 #include "minishell.h"
+#include <unistd.h>
+#include <stdio.h>
 
 int	data_init(t_data *data, int argc, char **argv, char **envp)
 {
@@ -29,6 +30,12 @@ int	data_init(t_data *data, int argc, char **argv, char **envp)
 	print_err_full(data->prog, 0, 0);
 	if (data->path == 0)
 		return (print_errno(1, 0));
+	data->env = env_var_extract(envp);
+	if (data->env == NULL)
+	{
+		free(data);
+		return (print_errno(1, 0));
+	}
 	return (0);
 }
 
