@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 16:44:05 by athill            #+#    #+#             */
-/*   Updated: 2024/04/24 09:14:13 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/24 11:07:48 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	cmd_exit(t_data *data, char **args)
 		status = print_err(NUM_ARG_REQUIRED, s, MSG_NUM_ARG_REQUIRED);
 		free(s);
 	}
-	else if (args[2] != 0)
+	else if (args[1] != 0 && args[2] != 0)
 	{
 		status = print_err(TOO_MANY_ARGS, "exit", MSG_TOO_MANY_ARGS);
 		error = 2;
