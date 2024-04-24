@@ -8,3 +8,4 @@ parenthesis_nested3		(echo a && (echo b || echo c) && echo d)
 parenthesis_outside_r	(echo a) && echo b
 parenthesis_outside_l	echo b && (echo a)
 parenthesis_outside_b	echo b && (echo a) && echo c
+parenthesis_no_space	echo a&&(echo b||echo c)&&echo d

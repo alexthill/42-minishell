@@ -36,7 +36,7 @@ handle_cmd() {
 	err=$(cat out_stderr | sed 's/[^:]\+: \(line [^:]\+: \)\?/[progname]: /')
 	echo "" >> "$1"
 	echo "======== stderr =======" >> "$1"
-	echo "$err" | sed -z "s/.*syntax error.*/[syntax error msg]/" >> "$1"
+	echo "$err" | sed -z "s/.*syntax error.*/[syntax error msg]\n/" >> "$1"
 	echo "======== return =======" >> "$1"
 	echo "return value: $res" >> "$1"
 }
