@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 16:09:43 by elo               #+#    #+#             */
-/*   Updated: 2024/04/23 18:01:50 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/04/24 09:34:52 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	cmd_cd(t_data *data, char **args)
 	char	*path;
 	char	*curr;
 
-	if (args[1] == 0 || ft_streq(args[1], "~") == 0)
+	if (args[1] == 0)
 		path = get_env_var(data, "HOME");
 	else
 		path = args[1];
