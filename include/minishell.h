@@ -72,7 +72,7 @@ int		exec_redirs(t_data *data);
 int		reset_redirs(t_data *data, int status);
 
 // expand_string.c
-char    *expand_string(t_data *data, char const *s);
+char	*expand_string(t_data *data, char const *s);
 char	**expand_args(t_data *data, size_t argc, char **argv);
 void	free_args(char **args);
 
