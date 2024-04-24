@@ -42,7 +42,7 @@ typedef enum e_redir_type
 	REDIR_APPEND,
 }	t_redir_type;
 
-typedef struct	s_redir
+typedef struct s_redir
 {
 	t_redir_type	type;
 	char			*file;
