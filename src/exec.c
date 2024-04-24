@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 10:29:17 by athill            #+#    #+#             */
-/*   Updated: 2024/04/23 16:47:44 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/24 11:32:27 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int	exec_line(t_data *data, char const *line)
 	t_buffer	stack;
 	int			status;
 
-	status = ast_tokenize(line, &tokens);
+	status = ast_tokenize(line, &tokens, 0);
 	if (status)
 	{
 		buffer_free(&tokens, &free);

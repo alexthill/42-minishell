@@ -1,16 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ast2.c                                             :+:      :+:    :+:   */
+/*   ast_parse.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 14:38:32 by athill            #+#    #+#             */
-/*   Updated: 2024/04/19 16:02:41 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/24 13:00:11 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include "ast.h"
 #include "libft.h"
 #include "minishell.h"
@@ -26,6 +25,11 @@ static int	reduce(t_buffer *stack)
 	{
 		node = buffer_pop(stack);
 		last = buffer_last(stack);
+		if ((node->type == NODE_OR || node->type == NODE_AND ||
+				node->type == NODE_PIPE) && node->children.len < 2)
+		{
+			return (1);
+		}
 		if (last)
 			buffer_push(&last->children, node);
 		else
@@ -65,20 +69,22 @@ static int	parse_leaftok(t_buffer const *tokens, size_t *i, t_buffer *stack)
 static int	parse_metatok(char const *token, char const *next, t_buffer *stack)
 {
 	t_ast	*node;
+	int		status;
 
+	status = 0;
 	node = buffer_last(stack);
 	if (node && node->type == NODE_PIPE && !ft_streq(token, "|"))
-		reduce(stack);
-	if (ft_streq(token, "(") && node && node->type == NODE_LEAF)
-		return (print_err(SYNTAX_ERR, "unexpected token", token));
+		status = reduce(stack);
+	if (status || (ft_streq(token, "(") && node && node->type == NODE_LEAF))
+		return (print_syntax_err(NULL, token));
 	if (ft_streq(token, "("))
 		buffer_push(stack, ast_new(NODE_GROUP_OPEN, 0));
 	else if (ft_streq(token, ")") && node)
 	{
-		reduce(stack);
+		status = reduce(stack);
 		node = buffer_last(stack);
-		if (node->type != NODE_GROUP_OPEN)
-			return (print_err(SYNTAX_ERR, "unexpected token", token));
+		if (status || node->type != NODE_GROUP_OPEN)
+			return (print_syntax_err(NULL, token));
 		node->type = NODE_GROUP;
 		if (stack->len >= 2
 			&& ((t_ast *)stack->ptr[stack->len - 2])->type != NODE_GROUP_OPEN
@@ -99,7 +105,7 @@ static int	parse_metatok(char const *token, char const *next, t_buffer *stack)
 			buffer_push(stack, ast_new(NODE_PIPE, buffer_pop(stack)));
 	}
 	else
-		return (print_err(SYNTAX_ERR, "unexpected token", token));
+		return (print_syntax_err(NULL, token));
 	return (0);
 }
 
@@ -114,7 +120,6 @@ int	ast_parse(t_buffer const *tokens, t_buffer *stack)
 	status = 0;
 	while (++i < tokens->len)
 	{
-		//printf("tok %s\n", (char *)tokens->ptr[i]);
 		if (!is_meta(((char const *)tokens->ptr[i])[0])
 			|| token_is_redir(tokens->ptr[i]))
 			status = parse_leaftok(tokens, &i, stack);
@@ -125,9 +130,10 @@ int	ast_parse(t_buffer const *tokens, t_buffer *stack)
 		if (status)
 			return (status);
 	}
-	reduce(stack);
+	if (reduce(stack) || (tokens->len && ft_streq(tokens->ptr[i - 1], "|")))
+		return (print_syntax_err(NULL, NULL));
 	node = buffer_last(stack);
 	if (stack->len > 1 || (node && node->type == NODE_GROUP_OPEN))
-		return (print_err(SYNTAX_ERR, 0, "unexpected EOF"));
+		return (print_syntax_err(NULL, NULL));
 	return (0);
 }

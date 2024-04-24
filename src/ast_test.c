@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:51:03 by athill            #+#    #+#             */
-/*   Updated: 2024/04/22 08:41:32 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/24 11:34:05 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	ast_test(char *s)
 	t_buffer	stack;
 	size_t		i;
 
-	if (ast_tokenize(s, &tokens))
+	if (ast_tokenize(s, &tokens, 0))
 	{
 		buffer_free(&tokens, &free);
 		return (print_err(1, 0, "failed to tokenize"));
