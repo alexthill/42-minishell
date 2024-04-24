@@ -60,14 +60,22 @@ int		data_free(t_data *data);
 char	**path_extract(char **envp);
 char	*path_concat(char *p1, char *p2);
 
+// exec.c
 int		exec_line(t_data *data, char const *line);
 int		exec_ast(t_data *data, t_ast *ast);
+
+// exec_pipe.c
 int		exec_pipe(t_data *data, t_ast *ast);
 
 // exec_redirs.c
 int		check_redirs(t_data *data, t_buffer *redirs);
 int		exec_redirs(t_data *data);
 int		reset_redirs(t_data *data, int status);
+
+// expand_string.c
+char    *expand_string(t_data *data, char const *s);
+char	**expand_args(t_data *data, size_t argc, char **argv);
+void	free_args(char **args);
 
 char	*get_env_var(t_data *data, char *name);
 int		set_env_var(t_data *data, char *name,char *value);

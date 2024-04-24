@@ -1,0 +1,5 @@
+return			echo $?
+return_ok		echo hi; echo $?
+return_ko1		cat fail; echo $?
+return_ko2		echo a > readonly; echo $?
+return_ko3		cat < fail; echo $?

@@ -19,11 +19,10 @@ if [ "$?" != "0" ]; then
 fi
 
 errcount=0
-rm -rf diffs
-mkdir diffs
+rm -rf diffs temp
+mkdir diffs temp
 
 handle_cmd() {
-	mkdir temp
 	cd temp
 	echo "infile content" > infile
 	echo "infile second line" >> infile
@@ -31,7 +30,7 @@ handle_cmd() {
 	chmod -wx readonly
 	eval "$2" > ../outfile 2> ../out_stderr
 	cd ..
-	rm -rf temp
+	rm -rf temp/*
 	res="$?"
 	mv outfile "$1" 2> /dev/null
 	err=$(cat out_stderr | sed 's/[^:]\+: \(line [^:]\+: \)\?/[progname]: /')
@@ -85,6 +84,8 @@ else
 		execute_file_tests "$filename"
 	done
 fi
+
+rm -rf temp
 
 echo ""
 if [[ $errcount -eq 0 ]]; then

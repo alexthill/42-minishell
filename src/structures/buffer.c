@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 15:29:18 by athill            #+#    #+#             */
-/*   Updated: 2024/04/18 11:45:06 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/23 14:17:18 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	buffer_reserve(t_buffer *buf, size_t n)
 	else
 		buf->cap += n;
 	old_ptr = buf->ptr;
-	buf->ptr = malloc(buf->cap * sizeof(n));
+	buf->ptr = malloc(buf->cap * sizeof(void *));
 	if (buf->ptr == 0)
 		exit(1);
 	ft_memcpy(buf->ptr, old_ptr, buf->len * sizeof(void *));

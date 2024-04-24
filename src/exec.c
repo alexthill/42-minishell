@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 10:29:17 by athill            #+#    #+#             */
-/*   Updated: 2024/04/22 16:38:18 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/23 16:47:44 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,12 @@ static int	exec_extern(t_data *data, char **args)
 	return (print_err(CMD_NOT_FOUND, args[0], MSG_CMD_NOT_FOUND));
 }
 
-static int	exec_leaf(t_data *data, t_ast *ast)
+static int	exec_leaf(t_data *data, t_ast *ast, char **args)
 {
 	pid_t	pid;
 	int		status;
-	char	**args;
 
-	args = (char **)ast->children.ptr;
-	if (args == 0 || args[0] == 0)
+	if (args == 0)
 		return (print_err(1, 0, "no args"));
 	status = check_redirs(data, &ast->redirs);
 	if (status)
@@ -79,6 +77,7 @@ static int	exec_and_or(t_data *data, t_ast const *ast)
 int	exec_ast(t_data *data, t_ast *ast)
 {
 	const int	old_in_pipe = data->in_pipe;
+	char		**args;
 	int			status;
 
 	if (ast == 0)
@@ -96,8 +95,9 @@ int	exec_ast(t_data *data, t_ast *ast)
 		status = exec_pipe(data, ast);
 	else if (ast->type == NODE_LEAF)
 	{
-		buffer_push(&ast->children, 0);
-		status = reset_redirs(data, exec_leaf(data, ast));
+		args = expand_args(data, ast->children.len, (char **)ast->children.ptr);
+		status = reset_redirs(data, exec_leaf(data, ast, args));
+		free_args(args);
 	}
 	return (status);
 }
