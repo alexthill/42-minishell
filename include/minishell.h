@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:24:31 by athill            #+#    #+#             */
-/*   Updated: 2024/04/24 18:01:22 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/04/24 18:43:39 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,5 +98,6 @@ void	ft_lstadd_front2(t_env **lst, t_env *new);
 t_env	*ft_lstnew2(void *name, void *value);
 char	**ft_split2(const char *s, char c);
 void	swap_nodes(t_env *node);
+void 	free_node(t_env *node);
 
 #endif
