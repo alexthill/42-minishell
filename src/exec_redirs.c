@@ -45,6 +45,7 @@ static int	read_here_doc(char *limiter)
 	close(link[1]);
 	return (link[0]);
 }
+
 static void	handle_redir(t_data *data, t_redir *redir)
 {
 	int	file_flags;
