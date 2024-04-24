@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 14:54:25 by athill            #+#    #+#             */
-/*   Updated: 2024/04/19 15:54:56 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/24 11:32:15 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,20 @@ typedef struct s_redir
 	char			*file;
 }	t_redir;
 
+// ast.c
 t_ast	*ast_new(t_node_type type, void *element);
 void	ast_free(void *ast);
-int		ast_tokenize(char const *s, t_buffer *tokens);
+int		print_syntax_err(char *prog, char const *token);
+int		ast_tokenize(char const *s, t_buffer *tokens, int quote);
+
+// ast2.c
 int		ast_parse(t_buffer const *tokens, t_buffer *stack);
+
+// ast_redir.c
 int		token_is_redir(char const *token);
 int		ast_parse_redir(t_buffer const *tokens, size_t *i, t_buffer *redirs);
 
+// ast_print.c
 void	ast_print(t_ast *ast);
 
 #endif

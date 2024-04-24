@@ -1,0 +1,5 @@
+syntax_err1			echo a |
+syntax_err2			echo a | echo b | 
+syntax_err3			cat <<<< infile
+syntax_err4			|
+syntax_err5			=
