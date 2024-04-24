@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:24:31 by athill            #+#    #+#             */
-/*   Updated: 2024/04/24 10:55:09 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/04/24 15:27:57 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 # include "ast.h"
 # include "libft.h"
 
-# define PROMPT	"minishell> "
+# define PROMPT			"minishell> "
+# define PROMPT_HEREDOC	"> "
 # define TOO_MANY_ARGS		1
 # define NUM_ARG_REQUIRED	2
 # define SYNTAX_ERR			2
@@ -46,6 +47,9 @@ typedef struct s_data
 	t_env			*env;
 }	t_data;
 
+// main.c
+char	*get_line(t_data *data, char const *prompt);
+
 // error.c
 int		print_err(int code, char const *s, char const *msg);
 int		print_errno(int is_err, char const *s);
@@ -72,7 +76,7 @@ int		exec_redirs(t_data *data);
 int		reset_redirs(t_data *data, int status);
 
 // expand_string.c
-char	*expand_string(t_data *data, char const *s);
+char	*expand_string(t_data *data, char const *s, int handle_quotes);
 char	**expand_args(t_data *data, size_t argc, char **argv);
 void	free_args(char **args);
 
