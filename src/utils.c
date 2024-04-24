@@ -36,8 +36,8 @@ int	wait_for_process(pid_t	pid)
 	if (waitpid(pid, &status, 0) < 0)
 		return (print_errno(1, "waitpid"));
 	if (WIFEXITED(status))
-		return(WEXITSTATUS(status));
+		return (WEXITSTATUS(status));
 	if (WIFSIGNALED(status))
-		return(WTERMSIG(status));
+		return (WTERMSIG(status));
 	return (0);
 }

@@ -27,7 +27,7 @@ static int	expand_return_status(t_data *data, t_string *buf)
 
 static int	expand_var(t_data *data, char const *s, t_string *buf)
 {
-	char 	*name;
+	char	*name;
 	size_t	i;
 
 	if (s[0] == '?')
