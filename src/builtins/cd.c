@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 16:09:43 by elo               #+#    #+#             */
-/*   Updated: 2024/04/24 09:34:52 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/04/24 14:56:57 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,16 +66,10 @@ int	cmd_cd(t_data *data, char **args)
 	else
 		path = args[1];
 	if (chdir(path) == -1)
-	{
-		print_errno(0, "MSG_CD_ERR");
-		return (1);
-	}
+		return (print_errno(1, "MSG_CD_ERR"));
 	oldpwd = get_env_var(data, "PWD");
 	if (oldpwd == NULL)
-	{
-		print_errno(0, "MSG_CD_ERR");
-		return (1);
-	}
+		return (print_errno(1, "MSG_CD_ERR"));
 	if (set_env_var(data, "OLDPWD", oldpwd) == 1)
 	{
 		free(oldpwd);
@@ -84,10 +78,7 @@ int	cmd_cd(t_data *data, char **args)
 	}
 	curr = getcwd(NULL, 0);
 	if (curr == NULL)
-	{
-		print_errno(0, "MSG_CD_ERR");
-		return (1);
-	}
+		return (print_errno(1, "MSG_CD_ERR"));
 	if (set_env_var(data, "PWD", curr) == 1)
 	{
 		free(curr);
