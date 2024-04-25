@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:07:51 by ehamm             #+#    #+#             */
-/*   Updated: 2024/04/24 15:55:07 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/04/24 18:33:23 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,8 @@ int	remove_env(t_data *data, char *name)
 		}
 	}
 	if (node == NULL)
-		return(0);
+		return (0);
 	prev->next = node->next;
-	free(node->name);
-	free(node->value);
 	free(node);
 	return (0);
 }
@@ -46,13 +44,13 @@ int	remove_env(t_data *data, char *name)
 int	cmd_unset(t_data *data, char **args)
 {
 	char	*name;
-	int i;
+	int		i;
 
 	i = 1;
 	name = args[i];
 	if (args[i] == 0)
 		return (0);
-	while(args[i])
+	while (args[i])
 	{
 		name = args[i];
 		remove_env(data, name);

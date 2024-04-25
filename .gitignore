@@ -2,6 +2,9 @@ minishell
 *.swp
 test/diffs/
 
+# Vscode(elodie)
+.vscode/*
+
 # Prerequisites
 *.d
 

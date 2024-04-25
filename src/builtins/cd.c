@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 16:09:43 by elo               #+#    #+#             */
-/*   Updated: 2024/04/24 14:56:57 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/04/24 19:13:12 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,18 +55,10 @@ int	set_env_var(t_data *data, char *name, char *value)
 	return (1);
 }
 
-int	cmd_cd(t_data *data, char **args)
+int	update_oldpwd(t_data *data)
 {
 	char	*oldpwd;
-	char	*path;
-	char	*curr;
 
-	if (args[1] == 0)
-		path = get_env_var(data, "HOME");
-	else
-		path = args[1];
-	if (chdir(path) == -1)
-		return (print_errno(1, "MSG_CD_ERR"));
 	oldpwd = get_env_var(data, "PWD");
 	if (oldpwd == NULL)
 		return (print_errno(1, "MSG_CD_ERR"));
@@ -76,15 +68,41 @@ int	cmd_cd(t_data *data, char **args)
 		print_errno(0, "MSG_CD_ERR");
 		return (1);
 	}
+	return (0);
+}
+
+int	update_pwd(t_data *data)
+{
+	char	*curr;
+	int		res;
+
 	curr = getcwd(NULL, 0);
 	if (curr == NULL)
 		return (print_errno(1, "MSG_CD_ERR"));
-	if (set_env_var(data, "PWD", curr) == 1)
+	res = set_env_var(data, "PWD", curr);
+	free(curr);
+	if (res == 1)
 	{
 		free(curr);
 		print_errno(0, "MSG_CD_ERR");
 		return (1);
 	}
-	free(curr);
+	return (0);
+}
+
+int	cmd_cd(t_data *data, char **args)
+{
+	char	*path;
+
+	if (args[1] == 0)
+		path = get_env_var(data, "HOME");
+	else
+		path = args[1];
+	if (chdir(path) == -1)
+		return (print_errno(1, "MSG_CD_ERR"));
+	if (update_oldpwd(data) == 1)
+		return (1);
+	if (update_pwd(data) == 1)
+		return (1);
 	return (0);
 }

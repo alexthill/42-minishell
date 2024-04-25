@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 09:42:56 by ehamm             #+#    #+#             */
-/*   Updated: 2024/04/24 15:55:11 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/04/24 17:42:04 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,22 @@ int	modify_or_add_env_variable(t_data *data, char *name, char *value)
 	return (0);
 }
 
+void	swap_nodes(t_env *node)
+{
+	char	*tmp_name;
+	char	*tmp_value;
+
+	tmp_name = node->name;
+	tmp_value = node->value;
+	node->name = node->next->name;
+	node->value = node->next->value;
+	node->next->name = tmp_name;
+	node->next->value = tmp_value;
+}
+
 int	sort_export(t_data *data)
 {
 	t_env	*node;
-	char	*tmp_name;
-	char	*tmp_value;
 	int		swap;
 
 	swap = 1;
@@ -53,12 +64,7 @@ int	sort_export(t_data *data)
 		{
 			if (ft_strcmp(node->name, node->next->name) > 0)
 			{
-				tmp_name = node->name;
-				tmp_value = node->value;
-				node->value = node->next->value;
-				node->name = node->next->name;
-				node->next->name = tmp_name;
-				node->next->value = tmp_value;
+				swap_nodes(node);
 				swap = 1;
 			}
 			node = node->next;
@@ -75,7 +81,10 @@ int	print_export(t_data *data)
 	sort_export(data);
 	while (node)
 	{
-		printf("declare -x %s=\"%s\"\n", node->name, node->value);
+		if (node->value == NULL)
+			printf("declare -x %s\n", node->name);
+		else
+			printf("declare -x %s=\"%s\"\n", node->name, node->value);
 		node = node->next;
 	}
 	return (0);
@@ -96,14 +105,10 @@ int	cmd_export(t_data *data, char **args)
 		if (splitted[1] != NULL)
 			value = ft_strdup(splitted[1]);
 		else
-			value = "";
+			value = NULL;
 		free(splitted);
-		if (name == NULL || value == NULL)
-		{
-			free(name);
-			free(value);
-			return (0);
-		}
+		if (name == NULL)
+			return (free(name), 0);
 		modify_or_add_env_variable(data, name, value);
 	}
 	else

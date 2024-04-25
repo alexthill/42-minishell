@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:24:31 by athill            #+#    #+#             */
-/*   Updated: 2024/04/24 16:45:35 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/24 19:15:57 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,17 @@ int		set_env_var(t_data *data, char *name, char *value);
 int		modify_or_add_env_variable(t_data *data, char *name, char *value);
 int		env_to_envp(t_data *data, char ***envp);
 
+//builtins utils
+int		update_pwd(t_data *data);
+int		update_oldpwd(t_data *data);
+int		sort_export(t_data *data);
+int		print_export(t_data *data);
+int		print_env(t_data *data);
+
 //utils 
 void	ft_lstadd_front2(t_env **lst, t_env *new);
 t_env	*ft_lstnew2(void *name, void *value);
 char	**ft_split2(const char *s, char c);
+void	swap_nodes(t_env *node);
 
 #endif
