@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 10:00:00 by athill            #+#    #+#             */
-/*   Updated: 2024/04/25 09:52:20 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/25 10:53:49 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include "minishell.h"
 #include <unistd.h>
 #include <stdio.h>
+#include <signal.h>
+#include <sys/types.h>
 
 int	data_init(t_data *data, int argc, char **argv, char **envp)
 {
