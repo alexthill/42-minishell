@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 10:29:17 by athill            #+#    #+#             */
-/*   Updated: 2024/04/24 11:32:27 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/25 08:45:23 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,22 @@ static int	exec_extern(t_data *data, char **args)
 {
 	size_t	i;
 	char	*path;
+	char	**envp;
+	int		status;
 
+	status = env_to_envp(data, &envp);
+	if (status)
+		return (status);
 	if (args[0][0] == '.' || args[0][0] == '/')
-		return (print_errno(execve(args[0], args, data->envp), args[0]));
+		return (print_errno(execve(args[0], args, envp), args[0]));
 	i = -1;
 	while (data->path[++i])
 	{
 		path = path_concat(data->path[i], args[0]);
-		execve(path, args, data->envp);
+		execve(path, args, envp);
 		free(path);
 	}
+	ft_str_array_free(envp);
 	return (print_err(CMD_NOT_FOUND, args[0], MSG_CMD_NOT_FOUND));
 }
 
