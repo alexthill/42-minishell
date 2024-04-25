@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 12:39:47 by athill            #+#    #+#             */
-/*   Updated: 2024/04/24 15:27:33 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/25 10:52:19 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ char	**expand_args(t_data *data, size_t argc, char **argv)
 	while (++i < argc)
 		args[i] = expand_string(data, argv[i], 1);
 	args[i] = 0;
+	glob_args(&args);
 	return (args);
 }
 

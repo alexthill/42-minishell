@@ -1,0 +1,8 @@
+glob_simple			echo *
+glob_sorted			touch b c a; echo *
+glob_name			touch a.c b.c a.o b.o; echo *.c
+glob_ending			touch a.c b.c a.o b.o; echo a.*
+glob_both			touch a.c b.c a.o b.o; echo *.*
+glob_hidden			echo .*
+glob_hidden2		touch .hidden .test; echo .*; echo .hidd*
+glob_mutli			touch minini mini; echo *i*i*

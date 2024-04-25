@@ -14,6 +14,7 @@ SRCS = src/main.c \
 	   src/exec_pipe.c \
 	   src/exec_redirs.c \
 	   src/expand_string.c \
+	   src/glob.c \
 	   src/path.c \
 	   src/utils.c \
 	   src/builtins/cd.c \
@@ -24,6 +25,7 @@ SRCS = src/main.c \
 	   src/builtins/pwd.c \
 	   src/builtins/unset.c \
 	   src/builtins/utils.c \
+	   src/ft_sort_str_tab.c \
 	   src/get_next_line.c \
 	   src/structures/buffer.c \
 	   src/structures/buffer2.c \

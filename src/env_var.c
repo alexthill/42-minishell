@@ -91,7 +91,7 @@ t_env	*env_var_extract(char **envp)
 	while (*envp)
 	{
 		splitted = ft_split2(*envp, '=');
-		if (splitted == 0 || splitted[0] == 0)+
+		if (splitted == 0 || splitted[0] == 0)
 		{
 			free(splitted);
 			return (0);
