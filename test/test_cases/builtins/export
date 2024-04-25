@@ -1,0 +1,6 @@
+export			export
+export_0		export test0
+export_1		export test1=
+export_2		export test2=1
+export_3		export test3=test=salut
+env				env
