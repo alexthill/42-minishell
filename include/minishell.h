@@ -80,6 +80,12 @@ char	*expand_string(t_data *data, char const *s, int handle_quotes);
 char	**expand_args(t_data *data, size_t argc, char **argv);
 void	free_args(char **args);
 
+// glob.c
+int		glob_args(char ***args);
+
+// ft_sort_str_tab.c
+void	ft_sort_str_tab(char **tab, size_t size);
+
 //env var manipulations
 t_env	*env_var_extract(char **envp);
 char	*get_env_var(t_data *data, char *name);
