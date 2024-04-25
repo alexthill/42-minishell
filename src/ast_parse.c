@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 14:38:32 by athill            #+#    #+#             */
-/*   Updated: 2024/04/24 13:41:53 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/25 09:00:32 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,6 @@ static int	parse_metatok(char const *token, char const *next, t_buffer *stack)
 
 	status = 0;
 	node = buffer_last(stack);
-	if (node && node->type == NODE_PIPE && !ft_streq(token, "|"))
-		status = reduce(stack);
 	if (status || (ft_streq(token, "(") && node && node->type == NODE_LEAF))
 		return (print_syntax_err(NULL, token));
 	if (ft_streq(token, "("))
