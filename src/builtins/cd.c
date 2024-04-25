@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 16:09:43 by elo               #+#    #+#             */
-/*   Updated: 2024/04/24 19:13:12 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/04/25 13:30:28 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,11 @@ int	update_oldpwd(t_data *data)
 
 	oldpwd = get_env_var(data, "PWD");
 	if (oldpwd == NULL)
-		return (print_errno(1, "MSG_CD_ERR"));
+		return (print_errno(1, "cd:"));
 	if (set_env_var(data, "OLDPWD", oldpwd) == 1)
 	{
 		free(oldpwd);
-		print_errno(0, "MSG_CD_ERR");
+		print_errno(1, "MSG_CD_ERR");
 		return (1);
 	}
 	return (0);
@@ -84,7 +84,7 @@ int	update_pwd(t_data *data)
 	if (res == 1)
 	{
 		free(curr);
-		print_errno(0, "MSG_CD_ERR");
+		print_errno(1, "MSG_CD_ERR");
 		return (1);
 	}
 	return (0);
