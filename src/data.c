@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 10:00:00 by athill            #+#    #+#             */
-/*   Updated: 2024/04/24 11:02:19 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/25 09:52:20 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,17 @@ int	data_init(t_data *data, int argc, char **argv, char **envp)
 
 int	data_free(t_data *data)
 {
+	t_env	*node;
+
 	ft_str_array_free(data->path);
 	data->path = 0;
+	while (data->env)
+	{
+		node = data->env;
+		free(node->name);
+		free(node->value);
+		data->env = node->next;
+		free(node);
+	}
 	return (0);
 }
