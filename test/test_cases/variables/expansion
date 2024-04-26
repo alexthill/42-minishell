@@ -9,3 +9,7 @@ var_expansion_end2		echo $PWD_underscore
 var_expansion_end3		echo $PWD02428462
 var_invalid_name1		echo $312hi
 var_invalid_name2		echo $-hi
+var_expand_cmd_invalid	$PATH $PWD
+var_expand_cmd_empty	$a
+var_expand_cmd_ls		export a=ls; $a -a
+var_expand_cmd_invalid	export a=fail; $a -a
