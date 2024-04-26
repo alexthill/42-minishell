@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 10:29:17 by athill            #+#    #+#             */
-/*   Updated: 2024/04/26 09:25:21 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/26 10:04:01 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,10 +130,10 @@ int	exec_line(t_data *data, char const *line)
 		buffer_free(&stack, &ast_free);
 		return (status);
 	}
-	if (stack.len != 1)
-		status = print_err(1, 0, "something went wrong parsing");
-	else
+	if (stack.len == 1)
 		status = exec_ast(data, buffer_last(&stack));
+	else if (stack.len > 1)
+		status = print_err(1, 0, "something went wrong parsing");
 	buffer_free(&tokens, &free);
 	buffer_free(&stack, &ast_free);
 	return (status);

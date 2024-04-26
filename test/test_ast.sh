@@ -23,6 +23,7 @@ test92=("echo a | > out cat < in" "[|: [LEAF: echo a] [LEAF: > out < in: cat]]")
 test93=("echo a || > out cat" "[||: [LEAF: echo a] [LEAF: > out: cat]]")
 test94=("cat < in || echo a" "[||: [LEAF: < in: cat] [LEAF: echo a]]")
 test95=("< in tee > out file" "[LEAF: < in > out: tee file]")
+test_10=(' $a' '[LEAF: $a]')
 
 tests=(
 	test1[@]
@@ -47,6 +48,7 @@ tests=(
 	test93[@]
 	test94[@]
 	test95[@]
+	test_10[@]
 )
 
 for tst in "${tests[@]}"; do
