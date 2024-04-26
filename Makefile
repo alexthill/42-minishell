@@ -17,6 +17,7 @@ SRCS = src/main.c \
 	   src/glob.c \
 	   src/path.c \
 	   src/utils.c \
+	   src/signal.c \
 	   src/builtins/cd.c \
 	   src/builtins/echo.c \
 	   src/builtins/env.c \
