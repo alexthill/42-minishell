@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 15:57:41 by athill            #+#    #+#             */
-/*   Updated: 2024/04/24 19:16:00 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/04/26 11:29:40 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,13 @@ int	wait_for_process(pid_t pid)
 	if (WIFSIGNALED(status))
 		return (WTERMSIG(status));
 	return (0);
+}
+
+int	translate_errno(int err)
+{
+	if (err == 2)
+		return (127);
+	if (err == 13)
+		return (126);
+	return (err);
 }

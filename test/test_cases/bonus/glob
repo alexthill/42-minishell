@@ -8,5 +8,5 @@ glob_hidden2		touch .hidden .test; echo .*; echo .hidd*
 glob_mutli			touch minini mini; echo *i*i*
 glob_not_found		echo fail*
 glob_empty			mkdir empty; cd empty; echo *; echo .*
-glob_cmd1			*
-glob_cmd2			touch ls; *
+glob_cmd1			rm *; *
+glob_cmd2			rm *; touch ls; *

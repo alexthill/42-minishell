@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 09:41:17 by athill            #+#    #+#             */
-/*   Updated: 2024/04/24 15:35:32 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/26 10:44:18 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,13 @@ int	check_redirs(t_data *data, t_buffer *redirs)
 	while (++i < redirs->len)
 	{
 		redir = redirs->ptr[i];
+		redir->file = expand_string(data, redir->file, 1);
 		handle_redir(data, redir);
 		if (data->infile < 0 || data->outfile < 0)
-			return (print_errno(reset_redirs(data, 1), redir->file));
+		{
+			print_errno(1, redir->file);
+			return (reset_redirs(data, 1));
+		}
 	}
 	return (0);
 }

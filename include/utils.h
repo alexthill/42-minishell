@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 15:58:42 by athill            #+#    #+#             */
-/*   Updated: 2024/04/24 18:25:32 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/04/26 11:30:23 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,5 +17,6 @@ void	fn_do_nothing(void *ptr);
 int		is_blank(char c);
 int		is_meta(char c);
 int		wait_for_process(pid_t	pid);
+int		translate_errno(int err);
 
 #endif
