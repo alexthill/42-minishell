@@ -6,3 +6,7 @@ glob_both			touch a.c b.c a.o b.o; echo *.*
 glob_hidden			echo .*
 glob_hidden2		touch .hidden .test; echo .*; echo .hidd*
 glob_mutli			touch minini mini; echo *i*i*
+glob_not_found		echo fail*
+glob_empty			mkdir empty; cd empty; echo *; echo .*
+glob_cmd1			*
+glob_cmd2			touch ls; *

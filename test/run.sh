@@ -62,7 +62,7 @@ execute_file_tests() {
 	echo ""
 	echo "==== $filename ===="
 	while read line; do
-		IFS='	'; array=($line); unset IFS;
+		IFS='	'; set -f; array=($line); unset IFS; set +f
 		echo -n "${array[1]} "
 		diff="diffs/${array[0]}.diff"
 		CMD1="echo \"${array[1]//\"/\\\"}\" | tr ';' '\\n' | bash"
