@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 10:00:00 by athill            #+#    #+#             */
-/*   Updated: 2024/04/26 09:18:13 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/26 16:01:40 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,22 @@
 #include "buffer.h"
 #include "libft.h"
 #include "minishell.h"
+
+static	int update_shlvl(t_data *data)
+{
+	char	*value;
+	char	*new_value;
+
+	value = get_env_var(data, "SHLVL");
+	if (!value)
+		value = "0";
+	new_value = ft_itoa(ft_atoi(value) + 1);
+	if (!new_value)
+		return (1);
+	set_env_var(data, "SHLVL", new_value);
+	free(new_value);
+	return (0);
+}
 
 int	data_init(t_data *data, int argc, char **argv, char **envp)
 {
@@ -30,7 +46,7 @@ int	data_init(t_data *data, int argc, char **argv, char **envp)
 	data->env = env_var_extract(envp);
 	print_err_full(data->prog, 0, 0);
 	print_syntax_err(data->prog, 0);
-	if (data->env == NULL || data->path == NULL)
+	if (data->env == NULL || data->path == NULL || update_shlvl(data))
 		return (print_errno(1, 0));
 	return (0);
 }
