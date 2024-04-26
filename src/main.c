@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:30:00 by athill            #+#    #+#             */
-/*   Updated: 2024/04/24 14:48:08 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/25 11:07:56 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	main(int argc, char **argv, char **envp)
 	t_data		data;
 	char		*line;
 
+	signal_init();
 	if (data_init(&data, argc, argv, envp))
 		return (1);
 	line = 0;
