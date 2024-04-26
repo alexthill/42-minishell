@@ -29,9 +29,9 @@ handle_cmd() {
 	touch readonly
 	chmod -wx readonly
 	eval "$2" > ../outfile 2> ../out_stderr
+	res="$?"
 	cd ..
 	rm -rf temp/*
-	res="$?"
 	mv outfile "$1" 2> /dev/null
 	err=$(cat out_stderr | sed 's/[^:]\+: \(line [^:]\+: \)\?/[progname]: /')
 	echo "" >> "$1"

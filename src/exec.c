@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 10:29:17 by athill            #+#    #+#             */
-/*   Updated: 2024/04/26 10:04:01 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/26 11:28:10 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	exec_extern(t_data *data, char **args)
 	{
 		execve(args[0], args, envp);
 		ft_str_array_free(envp);
-		return (print_errno(1, args[0]));
+		return (translate_errno(print_errno(1, args[0])));
 	}
 	i = -1;
 	while (data->path[++i])
@@ -65,7 +65,9 @@ static int	exec_leaf(t_data *data, t_ast *ast, char **args)
 		return (print_errno(1, 0));
 	if (pid)
 		return (wait_for_process(pid));
-	status = exec_redirs(data) || exec_extern(data, args);
+	status = exec_redirs(data);
+	if (!status)
+		status = exec_extern(data, args);
 	free_args(args);
 	data_free(data);
 	exit(status);
