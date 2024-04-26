@@ -28,7 +28,7 @@ handle_cmd() {
 	echo "infile second line" >> infile
 	touch readonly
 	chmod -wx readonly
-	eval "$2" > ../outfile 2> ../out_stderr
+	echo "$2" | tr ';' '\n' | $3 > ../outfile 2> ../out_stderr
 	res="$?"
 	cd ..
 	rm -rf temp/*
@@ -42,12 +42,11 @@ handle_cmd() {
 }
 
 handle_diff() {
-	diff="$3"
+	diff="$2"
 	diff --unified=100 expected found > diff.diff
 	if [ -s diff.diff ]; then
 		echo "diff of execution of:" > "$diff"
 		echo "$1" >> "$diff"
-		echo "$2" >> "$diff"
 		cat diff.diff >> "$diff"
 		errcount=$((errcount + 1))
 		echo -e "\033[1;31mERROR\033[0m"
@@ -65,12 +64,11 @@ execute_file_tests() {
 		IFS='	'; set -f; array=($line); unset IFS; set +f
 		echo -n "${array[1]} "
 		diff="diffs/${array[0]}.diff"
-		CMD1="echo \"${array[1]//\"/\\\"}\" | tr ';' '\\n' | bash"
-		CMD2="echo \"${array[1]//\"/\\\"}\" | tr ';' '\\n' | ../../minishell"
+		CMD="${array[1]}"
 		touch expected
-		handle_cmd "expected" "$CMD1"
-		handle_cmd "found" "$CMD2"
-		handle_diff "$CMD1" "$CMD2" "$diff"
+		handle_cmd "expected" "$CMD" "bash"
+		handle_cmd "found" "$CMD" "../../minishell"
+		handle_diff "echo \"${CMD//\"/\\\"}\" | tr ';' '\\n' | [shell]" "$diff"
 	done < "$filename";
 }
 
