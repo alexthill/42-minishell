@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 12:39:47 by athill            #+#    #+#             */
-/*   Updated: 2024/04/25 10:52:19 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/26 09:26:11 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,7 @@ char	**expand_args(t_data *data, size_t argc, char **argv)
 	args = malloc((argc + 1) * sizeof(char *));
 	if (args == 0)
 		return (0);
-	args[0] = argv[0];
-	i = 0;
+	i = -1;
 	while (++i < argc)
 		args[i] = expand_string(data, argv[i], 1);
 	args[i] = 0;
@@ -99,7 +98,7 @@ void	free_args(char **args)
 
 	if (args == 0)
 		return ;
-	i = 0;
+	i = -1;
 	while (args[++i])
 		free(args[i]);
 	free(args);

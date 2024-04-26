@@ -6,12 +6,11 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 10:29:17 by athill            #+#    #+#             */
-/*   Updated: 2024/04/25 08:45:23 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/26 09:25:21 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include <sys/wait.h>
 #include <unistd.h>
 #include "ast.h"
 #include "buffer.h"
@@ -31,7 +30,11 @@ static int	exec_extern(t_data *data, char **args)
 	if (status)
 		return (status);
 	if (args[0][0] == '.' || args[0][0] == '/')
-		return (print_errno(execve(args[0], args, envp), args[0]));
+	{
+		execve(args[0], args, envp);
+		ft_str_array_free(envp);
+		return (print_errno(1, args[0]));
+	}
 	i = -1;
 	while (data->path[++i])
 	{
@@ -62,10 +65,10 @@ static int	exec_leaf(t_data *data, t_ast *ast, char **args)
 		return (print_errno(1, 0));
 	if (pid)
 		return (wait_for_process(pid));
-	status = exec_redirs(data);
-	if (status)
-		exit(status);
-	exit(exec_extern(data, args));
+	status = exec_redirs(data) || exec_extern(data, args);
+	free_args(args);
+	data_free(data);
+	exit(status);
 }
 
 static int	exec_and_or(t_data *data, t_ast const *ast)
