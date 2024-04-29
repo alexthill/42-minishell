@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:24:31 by athill            #+#    #+#             */
-/*   Updated: 2024/04/25 11:16:21 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/04/29 09:43:18 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # define MSG_TOO_MANY_ARGS		"too many arguments"
 # define MSG_NUM_ARG_REQUIRED	"numeric argument required"
 # define MSG_CMD_NOT_FOUND		"command not found"
+# define MSG_CD_ERR				"No such file or directory"
 
 typedef struct s_env
 {
@@ -94,8 +95,8 @@ int		modify_or_add_env_variable(t_data *data, char *name, char *value);
 int		env_to_envp(t_data *data, char ***envp);
 
 //builtins utils
-int		update_pwd(t_data *data);
-int		update_oldpwd(t_data *data);
+int		update_oldpwd(t_data *data, char **args);
+int		update_pwd(t_data *data, char **args);
 int		sort_export(t_data *data);
 int		print_export(t_data *data);
 int		print_env(t_data *data);

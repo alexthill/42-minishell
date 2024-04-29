@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:03:48 by athill            #+#    #+#             */
-/*   Updated: 2024/04/18 11:16:07 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/29 09:47:35 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <errno.h>
-#include <string.h>
 #include "libft.h"
 #include "minishell.h"
+#include <errno.h>
+#include <string.h>
 
 int	print_err(int code, char const *s, char const *msg)
 {
