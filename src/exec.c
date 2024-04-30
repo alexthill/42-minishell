@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 10:29:17 by athill            #+#    #+#             */
-/*   Updated: 2024/04/26 11:28:10 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/30 09:34:23 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	exec_ast(t_data *data, t_ast *ast)
 
 	if (ast == 0)
 		return (print_err(1, 0, "cannot execute null ast"));
-	status = 1;
+	status = 0;
 	if (ast->type == NODE_GROUP)
 	{
 		data->in_pipe = 0;
@@ -107,7 +107,8 @@ int	exec_ast(t_data *data, t_ast *ast)
 	else if (ast->type == NODE_LEAF)
 	{
 		args = expand_args(data, ast->children.len, (char **)ast->children.ptr);
-		status = reset_redirs(data, exec_leaf(data, ast, args));
+		if (args && args[0])
+			status = reset_redirs(data, exec_leaf(data, ast, args));
 		free_args(args);
 	}
 	return (status);
@@ -123,20 +124,20 @@ int	exec_line(t_data *data, char const *line)
 	if (status)
 	{
 		buffer_free(&tokens, &free);
-		return (status);
+		return (data_set_status(data, status));
 	}
 	status = ast_parse(&tokens, &stack);
 	if (status)
 	{
 		buffer_free(&tokens, &free);
 		buffer_free(&stack, &ast_free);
-		return (status);
+		return (data_set_status(data, status));
 	}
 	if (stack.len == 1)
-		status = exec_ast(data, buffer_last(&stack));
+		data_set_status(data, exec_ast(data, buffer_last(&stack)));
 	else if (stack.len > 1)
-		status = print_err(1, 0, "something went wrong parsing");
+		data_set_status(data, print_err(1, 0, "something went wrong parsing"));
 	buffer_free(&tokens, &free);
 	buffer_free(&stack, &ast_free);
-	return (status);
+	return (data->last_status);
 }
