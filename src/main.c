@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:30:00 by athill            #+#    #+#             */
-/*   Updated: 2024/04/25 11:07:56 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/04/30 09:32:52 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	main(int argc, char **argv, char **envp)
 		if (line[0] == '\0')
 			continue ;
 		//ast_test(line);
-		data.last_status = exec_line(&data, line);
+		exec_line(&data, line);
 		if (data.is_tty)
 			add_history(line);
 	}

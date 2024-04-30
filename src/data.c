@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 10:00:00 by athill            #+#    #+#             */
-/*   Updated: 2024/04/26 16:03:34 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/30 09:33:36 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,10 @@ int	data_free(t_data *data)
 		free(node);
 	}
 	return (0);
+}
+
+int	data_set_status(t_data *data, int status)
+{
+	data->last_status = status;
+	return (status);
 }

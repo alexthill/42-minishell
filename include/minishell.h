@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:24:31 by athill            #+#    #+#             */
-/*   Updated: 2024/04/29 09:43:18 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/04/30 09:33:59 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int		print_err_full(char *prog, char const *extra, char const *msg);
 // data.c
 int		data_init(t_data *data, int argc, char **argv, char **envp);
 int		data_free(t_data *data);
+int		data_set_status(t_data *data, int status);
 
 // path.c
 char	**path_extract(char **envp);
