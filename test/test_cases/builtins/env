@@ -1,0 +1,3 @@
+env			env | grep OLDPWD
+env_set		export ATHILL=alex; env | grep ATHILL
+env_unset	unset USER; env | grep USER

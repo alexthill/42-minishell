@@ -9,3 +9,8 @@ export_4		export "salut"=test
 export_split	export A="variable with space"
 export_5		export test5=""
 export_color	export test=$COLORTERM=colorcolor
+export_invalid_minus1	export A-
+export_invalid_minus2	export A-=123
+export_invalid_equal	export =
+export_invalid_numeric	export 123
+export_invalid_mutli	export A=a 123=4 B=b MINUS-
