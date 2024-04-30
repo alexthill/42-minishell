@@ -17,6 +17,7 @@ SRCS = src/main.c \
 	   src/glob.c \
 	   src/path.c \
 	   src/utils.c \
+	   src/utils_escape.c \
 	   src/signal.c \
 	   src/builtins/cd.c \
 	   src/builtins/echo.c \
@@ -30,7 +31,8 @@ SRCS = src/main.c \
 	   src/get_next_line.c \
 	   src/structures/buffer.c \
 	   src/structures/buffer2.c \
-	   src/structures/string.c
+	   src/structures/string.c \
+	   src/structures/string2.c
 OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)

@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 09:59:56 by athill            #+#    #+#             */
-/*   Updated: 2024/04/26 09:34:31 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/30 15:12:09 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "buffer.h"
 #include "libft.h"
 #include "minishell.h"
+#include "utils.h"
 
 static int	matches_pattern(char const *s, char const *p)
 {
@@ -23,6 +24,8 @@ static int	matches_pattern(char const *s, char const *p)
 		return (0);
 	while (*p)
 	{
+		if (*p == '\\')
+			p++;
 		if (*p != '*' && *s != *p)
 			return (0);
 		if (*p != '*' && *s == *p)
@@ -55,13 +58,13 @@ static int	read_from_dir(DIR *dir, char const *pattern, t_buffer *buf)
 	return (1);
 }
 
-static int	glob_arg(char *arg, t_buffer *buf)
+static int	glob_arg_helper(char *arg, t_buffer *buf)
 {
 	DIR				*dir;
-	const size_t	buf_start = buf->len;
+	const size_t	old_len = buf->len;
 
 	buffer_push(buf, arg);
-	if (!ft_strchr(arg, '*'))
+	if (!strchr_escaped(arg, '*', '\\'))
 		return (0);
 	dir = opendir(".");
 	if (dir == NULL)
@@ -71,34 +74,22 @@ static int	glob_arg(char *arg, t_buffer *buf)
 	{
 	}
 	closedir(dir);
-	ft_sort_str_tab((char **)&buf->ptr[buf_start], buf->len - buf_start);
-	if (buf_start == buf->len)
+	ft_sort_str_tab((char **)&buf->ptr[old_len], buf->len - old_len);
+	if (old_len == buf->len)
 		buffer_push(buf, arg);
 	else
 		free(arg);
 	return (0);
 }
 
-int	glob_args(char ***args)
+int	glob_arg(char *arg, t_buffer *buf)
 {
-	size_t		i;
-	int			has_glob;
-	t_buffer	buf;
-	int			status;
+	size_t	i;
+	int		status;
 
-	has_glob = 0;
-	i = -1;
-	while ((*args)[++i])
-		has_glob |= ft_strchr((*args)[i], '*') != 0;
-	if (!has_glob)
-		return (0);
-	buffer_init(&buf);
-	status = 0;
-	i = -1;
-	while ((*args)[++i])
-		status |= glob_arg((*args)[i], &buf);
-	buffer_push(&buf, NULL);
-	free(*args);
-	*args = (char **)buf.ptr;
+	i = buf->len - 1;
+	status = glob_arg_helper(arg, buf);
+	while (++i < buf->len)
+		buf->ptr[i] = str_unescape(buf->ptr[i], '\\');
 	return (status);
 }

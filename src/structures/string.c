@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 13:05:18 by athill            #+#    #+#             */
-/*   Updated: 2024/04/23 14:10:45 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/30 15:19:21 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,9 @@ void	string_push(t_string *buf, char c)
 	buf->ptr[buf->len++] = c;
 }
 
-void	string_concat(t_string *buf, char const *str)
+void	string_push2(t_string *buf, char c1, char c2)
 {
-	const size_t	len = ft_strlen(str);
-
-	string_reserve(buf, len);
-	ft_memcpy(&buf->ptr[buf->len], str, len);
-	buf->len += len;
+	string_reserve(buf, 2);
+	buf->ptr[buf->len++] = c1;
+	buf->ptr[buf->len++] = c2;
 }

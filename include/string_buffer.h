@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 13:05:31 by athill            #+#    #+#             */
-/*   Updated: 2024/04/24 09:49:14 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/30 15:19:59 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@ void	string_init(t_string *buf);
 void	string_reserve(t_string *buf, size_t n);
 void	string_free(t_string *buf);
 void	string_push(t_string *buf, char c);
+void	string_push2(t_string *buf, char c1, char c2);
+
 void	string_concat(t_string *buf, char const *s);
+char	*string_to_null_terminated(t_string *str);
 
 #endif
