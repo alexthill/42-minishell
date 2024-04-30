@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 10:00:00 by athill            #+#    #+#             */
-/*   Updated: 2024/04/30 09:33:36 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/30 16:38:10 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "libft.h"
 #include "minishell.h"
 
-static	int update_shlvl(t_data *data)
+static int	update_shlvl(t_data *data)
 {
 	char	*value;
 	char	*new_value;
