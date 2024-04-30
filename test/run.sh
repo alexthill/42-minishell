@@ -28,7 +28,7 @@ handle_cmd() {
 	echo "infile second line" >> infile
 	touch readonly
 	chmod -wx readonly
-	echo "$2" | tr ';' '\n' | $3 > ../outfile 2> ../out_stderr
+	echo "$2" | tr ';' '\n' | $3 2> ../out_stderr | grep -v 'declare -x _=\|declare -x SHLVL=' > ../outfile
 	res="$?"
 	cd ..
 	rm -rf temp/*

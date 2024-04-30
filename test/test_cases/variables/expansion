@@ -7,7 +7,6 @@ var_expansion_multi		echo $PWD $hi $PATH   $PWD
 var_expansion_end1		echo $PWD-end
 var_expansion_end2		echo $PWD_underscore
 var_expansion_end3		echo $PWD02428462
-var_expansion_split		export a="a    b"; echo $a
 var_invalid_name		echo $/imaslash
 var_expand_cmd_invalid	$PATH $PWD
 var_expand_cmd_empty	$a

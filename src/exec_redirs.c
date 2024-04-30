@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 09:41:17 by athill            #+#    #+#             */
-/*   Updated: 2024/04/26 10:44:18 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/30 15:26:47 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	read_here_doc(t_data *data, char *limiter)
 		line = get_line(data, PROMPT_HEREDOC);
 		if (line == NULL || ft_streq(line, limiter))
 			break ;
-		expanded = expand_string(data, line, 0);
+		expanded = expand_string2(data, line);
 		free(line);
 		ft_putendl_fd(expanded, link[1]);
 		free(expanded);
@@ -43,7 +43,7 @@ static int	read_here_doc(t_data *data, char *limiter)
 	return (link[0]);
 }
 
-static void	handle_redir(t_data *data, t_redir *redir)
+static int	handle_redir(t_data *data, t_redir *redir)
 {
 	int	file_flags;
 
@@ -66,26 +66,39 @@ static void	handle_redir(t_data *data, t_redir *redir)
 			file_flags = O_WRONLY | O_CREAT | O_APPEND;
 		data->outfile = open(redir->file, file_flags, 0644);
 	}
+	if (data->infile >= 0 && data->outfile >= 0)
+		return (0);
+	print_errno(1, redir->file);
+	return (1);
 }
 
 int	check_redirs(t_data *data, t_buffer *redirs)
 {
-	size_t	i;
-	t_redir	*redir;
+	size_t		i;
+	t_redir		*redir;
+	t_buffer	expanded;
+	int			status;
+	char		*file;
 
+	buffer_init(&expanded);
 	i = -1;
-	while (++i < redirs->len)
+	status = 0;
+	while (++i < redirs->len && !status)
 	{
 		redir = redirs->ptr[i];
-		redir->file = expand_string(data, redir->file, 1);
-		handle_redir(data, redir);
-		if (data->infile < 0 || data->outfile < 0)
-		{
-			print_errno(1, redir->file);
-			return (reset_redirs(data, 1));
-		}
+		file = redir->file;
+		expand_string(data, redir->file, &expanded);
+		redir->file = buffer_pop(&expanded);
+		if (redir->file == NULL || expanded.len)
+			status = print_err(1, file, "ambiguous redirect");
+		else
+			status = handle_redir(data, redir);
+		free(redir->file);
 	}
-	return (0);
+	buffer_free(&expanded, &free);
+	if (status)
+		reset_redirs(data, status);
+	return (status);
 }
 
 int	exec_redirs(t_data *data)

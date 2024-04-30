@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 10:29:17 by athill            #+#    #+#             */
-/*   Updated: 2024/04/30 09:34:23 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/30 09:39:00 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static int	exec_leaf(t_data *data, t_ast *ast, char **args)
 	status = exec_redirs(data);
 	if (!status)
 		status = exec_extern(data, args);
-	free_args(args);
+	ft_str_array_free(args);
 	data_free(data);
 	exit(status);
 }
@@ -109,7 +109,7 @@ int	exec_ast(t_data *data, t_ast *ast)
 		args = expand_args(data, ast->children.len, (char **)ast->children.ptr);
 		if (args && args[0])
 			status = reset_redirs(data, exec_leaf(data, ast, args));
-		free_args(args);
+		ft_str_array_free(args);
 	}
 	return (status);
 }

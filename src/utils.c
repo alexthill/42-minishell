@@ -6,17 +6,12 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 15:57:41 by athill            #+#    #+#             */
-/*   Updated: 2024/04/26 11:29:40 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/30 10:56:37 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include <sys/wait.h>
-
-void	fn_do_nothing(void *ptr)
-{
-	(void)ptr;
-}
+#include "minishell.h"
 
 int	is_blank(char c)
 {

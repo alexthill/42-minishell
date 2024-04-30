@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:24:31 by athill            #+#    #+#             */
-/*   Updated: 2024/04/30 09:33:59 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/30 14:58:24 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,12 @@ int		exec_redirs(t_data *data);
 int		reset_redirs(t_data *data, int status);
 
 // expand_string.c
-char	*expand_string(t_data *data, char const *s, int handle_quotes);
+void	expand_string(t_data *data, char const *s, t_buffer *buf);
+char	*expand_string2(t_data *data, char const *s);
 char	**expand_args(t_data *data, size_t argc, char **argv);
-void	free_args(char **args);
 
 // glob.c
-int		glob_args(char ***args);
+int		glob_arg(char *arg, t_buffer *buf);
 
 // ft_sort_str_tab.c
 void	ft_sort_str_tab(char **tab, size_t size);
