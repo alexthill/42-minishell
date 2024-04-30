@@ -6,11 +6,10 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:30:00 by athill            #+#    #+#             */
-/*   Updated: 2024/04/30 09:32:52 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/30 16:40:47 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <readline/readline.h>
@@ -18,8 +17,6 @@
 #include "get_next_line.h"
 #include "libft.h"
 #include "minishell.h"
-
-int	ast_test(char *s);
 
 char	*get_line(t_data *data, char const *prompt)
 {
@@ -52,7 +49,6 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		if (line[0] == '\0')
 			continue ;
-		//ast_test(line);
 		exec_line(&data, line);
 		if (data.is_tty)
 			add_history(line);

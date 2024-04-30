@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:51:03 by athill            #+#    #+#             */
-/*   Updated: 2024/04/24 11:34:05 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/30 16:39:30 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,10 @@ void	redir_print(t_redir *redir)
 	printf("%s", redir->file);
 }
 
-void	ast_print(t_ast *ast)
+void	ast_print2(t_ast *ast)
 {
 	size_t	i;
 
-	if (ast->type == NODE_LEAF)
-		printf("[LEAF:");
-	else if (ast->type == NODE_AND)
-		printf("[&&:");
-	else if (ast->type == NODE_OR)
-		printf("[||:");
-	else if (ast->type == NODE_PIPE)
-		printf("[|:");
-	else if (ast->type == NODE_GROUP)
-		printf("(:");
-	else
-		printf("[?%i:", ast->type);
 	i = -1;
 	while (++i < ast->redirs.len)
 		redir_print(ast->redirs.ptr[i]);
@@ -62,6 +50,23 @@ void	ast_print(t_ast *ast)
 		printf(")");
 	else
 		printf("]");
+}
+
+void	ast_print(t_ast *ast)
+{
+	if (ast->type == NODE_LEAF)
+		printf("[LEAF:");
+	else if (ast->type == NODE_AND)
+		printf("[&&:");
+	else if (ast->type == NODE_OR)
+		printf("[||:");
+	else if (ast->type == NODE_PIPE)
+		printf("[|:");
+	else if (ast->type == NODE_GROUP)
+		printf("(:");
+	else
+		printf("[?%i:", ast->type);
+	ast_print2(ast);
 }
 
 int	ast_test(char *s)

@@ -6,11 +6,10 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 09:41:17 by athill            #+#    #+#             */
-/*   Updated: 2024/04/30 15:26:47 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/30 16:46:11 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include "ast.h"

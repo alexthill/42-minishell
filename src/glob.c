@@ -6,12 +6,11 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 09:59:56 by athill            #+#    #+#             */
-/*   Updated: 2024/04/30 15:12:09 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/30 16:46:25 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <dirent.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include "buffer.h"
 #include "libft.h"

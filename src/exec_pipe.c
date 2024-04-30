@@ -6,11 +6,10 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 15:39:06 by athill            #+#    #+#             */
-/*   Updated: 2024/04/22 14:41:47 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/30 16:45:06 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <sys/wait.h>
 #include <unistd.h>

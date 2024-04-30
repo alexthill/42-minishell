@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 13:32:03 by athill            #+#    #+#             */
-/*   Updated: 2024/04/24 14:11:00 by athill           ###   ########.fr       */
+/*   Updated: 2024/04/30 16:37:54 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	ast_parse_redir(t_buffer const *tokens, size_t *i, t_buffer *redirs)
 	*i = *i + 1;
 	redir->file = tokens->ptr[*i];
 	if (is_meta(redir->file[0]))
-			return (print_syntax_err(NULL, redir->file));
+		return (print_syntax_err(NULL, redir->file));
 	buffer_push(redirs, redir);
 	return (0);
 }
