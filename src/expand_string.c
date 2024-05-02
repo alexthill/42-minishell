@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 12:39:47 by athill            #+#    #+#             */
-/*   Updated: 2024/04/30 15:20:39 by athill           ###   ########.fr       */
+/*   Updated: 2024/05/02 11:21:01 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void	expand_string(t_data *data, char const *s, t_buffer *buf)
 
 	string_init(&str);
 	quote = 0;
+	has_quote = 0;
 	while (*s)
 	{
 		if (*s == quote)
