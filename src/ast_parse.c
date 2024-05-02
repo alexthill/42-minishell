@@ -6,10 +6,11 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 14:38:32 by athill            #+#    #+#             */
-/*   Updated: 2024/04/25 09:00:32 by athill           ###   ########.fr       */
+/*   Updated: 2024/05/02 13:44:12 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include "ast.h"
 #include "libft.h"
 #include "minishell.h"
@@ -36,34 +37,6 @@ static int	reduce(t_buffer *stack)
 			buffer_push(stack, node);
 	}
 	return (0);
-}
-
-static int	parse_leaftok(t_buffer const *tokens, size_t *i, t_buffer *stack)
-{
-	t_ast	*node;
-	t_ast	*leaf;
-	int		status;
-
-	status = 0;
-	leaf = ast_new(NODE_LEAF, 0);
-	while (*i < tokens->len && status == 0)
-	{
-		if (!is_meta(((char const *)tokens->ptr[*i])[0]))
-			buffer_push(&leaf->children, tokens->ptr[*i]);
-		else if (token_is_redir(tokens->ptr[*i]))
-			status = ast_parse_redir(tokens, i, &leaf->redirs);
-		else
-			break ;
-		*i = *i + 1;
-	}
-	node = buffer_last(stack);
-	if (!node || node->type == NODE_GROUP_OPEN || *i == tokens->len
-		|| (ft_streq(tokens->ptr[*i], "|") && node->type != NODE_PIPE))
-		buffer_push(stack, leaf);
-	else
-		buffer_push(&node->children, leaf);
-	*i = *i - 1;
-	return (status);
 }
 
 static int	parse_closing(char const *token, char const *next, t_buffer *stack)

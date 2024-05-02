@@ -4,7 +4,7 @@ CFLAGS = -Wall -Wextra -Werror -Iinclude -Ilibft -g
 SRCS = src/main.c \
 	   src/ast.c \
 	   src/ast_parse.c \
-	   src/ast_redir.c \
+	   src/ast_leaf.c \
 	   src/ast_test.c \
 	   src/data.c \
 	   src/error.c \

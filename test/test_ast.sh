@@ -24,6 +24,7 @@ test93=("echo a || > out cat" "[||: [LEAF: echo a] [LEAF: > out: cat]]")
 test94=("cat < in || echo a" "[||: [LEAF: < in: cat] [LEAF: echo a]]")
 test95=("< in tee > out file" "[LEAF: < in > out: tee file]")
 test_10=(' $a' '[LEAF: $a]')
+test_11=('(cat) < Makefile' '(: < Makefile: [LEAF: cat])')
 
 tests=(
 	test1[@]
@@ -49,6 +50,7 @@ tests=(
 	test94[@]
 	test95[@]
 	test_10[@]
+	test_11[@]
 )
 
 for tst in "${tests[@]}"; do

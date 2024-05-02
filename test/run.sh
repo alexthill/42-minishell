@@ -68,7 +68,7 @@ execute_file_tests() {
 		touch expected
 		handle_cmd "expected" "$CMD" "bash"
 		handle_cmd "found" "$CMD" "../../minishell"
-		handle_diff "echo \"${CMD//\"/\\\"}\" | tr ';' '\\n' | [shell]" "$diff"
+		handle_diff "echo '${CMD//\'/\\\'}' | tr ';' '\\n' | [shell]" "$diff"
 	done < "$filename";
 }
 

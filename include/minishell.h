@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:24:31 by athill            #+#    #+#             */
-/*   Updated: 2024/05/02 09:19:37 by athill           ###   ########.fr       */
+/*   Updated: 2024/05/02 14:22:05 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int		exec_pipe(t_data *data, t_ast *ast);
 // exec_redirs.c
 int		check_redirs(t_data *data, t_buffer *redirs);
 int		exec_redirs(t_data *data);
-int		reset_redirs(t_data *data, int status);
+void	reset_redirs(t_data *data);
 
 // expand_string.c
 void	expand_string(t_data *data, char const *s, t_buffer *buf);
