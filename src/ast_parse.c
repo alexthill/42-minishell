@@ -6,11 +6,10 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 14:38:32 by athill            #+#    #+#             */
-/*   Updated: 2024/05/02 13:44:12 by athill           ###   ########.fr       */
+/*   Updated: 2024/05/02 14:47:10 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include "ast.h"
 #include "libft.h"
 #include "minishell.h"
@@ -29,6 +28,7 @@ static int	reduce(t_buffer *stack)
 		if ((node->type == NODE_OR || node->type == NODE_AND
 				|| node->type == NODE_PIPE) && node->children.len < 2)
 		{
+			buffer_push(stack, node);
 			return (1);
 		}
 		if (last)
@@ -104,7 +104,7 @@ int	ast_parse(t_buffer const *tokens, t_buffer *stack)
 		else if (i + 1 < tokens->len)
 			status = parse_metatok(tokens->ptr[i], tokens->ptr[i + 1], stack);
 		else
-			status = parse_metatok(tokens->ptr[i], 0, stack);
+			status = parse_metatok(tokens->ptr[i], NULL, stack);
 		if (status)
 			return (status);
 	}
