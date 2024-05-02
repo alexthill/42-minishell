@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 09:41:17 by athill            #+#    #+#             */
-/*   Updated: 2024/04/30 16:46:11 by athill           ###   ########.fr       */
+/*   Updated: 2024/05/02 14:25:28 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "buffer.h"
 #include "minishell.h"
 
-static int	read_here_doc(t_data *data, char *limiter)
+static int	read_here_doc(t_data *data, char const *limiter)
 {
 	char	*line;
 	char	*expanded;
@@ -42,33 +42,32 @@ static int	read_here_doc(t_data *data, char *limiter)
 	return (link[0]);
 }
 
-static int	handle_redir(t_data *data, t_redir *redir)
+static int	handle_redir(t_data *data, t_redir_type type, char *file)
 {
 	int	file_flags;
 
-	if (redir->type == REDIR_IN || redir->type == REDIR_HEREDOC)
+	if (type == REDIR_IN || type == REDIR_HEREDOC)
 	{
 		if (data->infile != STDIN_FILENO)
 			close(data->infile);
-		if (redir->type == REDIR_HEREDOC)
-			data->infile = read_here_doc(data, redir->file);
+		if (type == REDIR_HEREDOC)
+			data->infile = read_here_doc(data, file);
 		else
-			data->infile = open(redir->file, O_RDONLY);
+			data->infile = open(file, O_RDONLY);
 	}
-	else if (redir->type == REDIR_OUT || redir->type == REDIR_APPEND)
+	else if (type == REDIR_OUT || type == REDIR_APPEND)
 	{
 		if (data->outfile != STDOUT_FILENO)
 			close(data->outfile);
-		if (redir->type == REDIR_OUT)
+		if (type == REDIR_OUT)
 			file_flags = O_WRONLY | O_CREAT | O_TRUNC;
 		else
 			file_flags = O_WRONLY | O_CREAT | O_APPEND;
-		data->outfile = open(redir->file, file_flags, 0644);
+		data->outfile = open(file, file_flags, 0644);
 	}
-	if (data->infile >= 0 && data->outfile >= 0)
-		return (0);
-	print_errno(1, redir->file);
-	return (1);
+	if (data->infile == -1 || data->outfile == -1)
+		return (print_errno(1, file), free(file), 1);
+	return (free(file), 0);
 }
 
 int	check_redirs(t_data *data, t_buffer *redirs)
@@ -77,7 +76,6 @@ int	check_redirs(t_data *data, t_buffer *redirs)
 	t_redir		*redir;
 	t_buffer	expanded;
 	int			status;
-	char		*file;
 
 	buffer_init(&expanded);
 	i = -1;
@@ -85,18 +83,15 @@ int	check_redirs(t_data *data, t_buffer *redirs)
 	while (++i < redirs->len && !status)
 	{
 		redir = redirs->ptr[i];
-		file = redir->file;
 		expand_string(data, redir->file, &expanded);
-		redir->file = buffer_pop(&expanded);
-		if (redir->file == NULL || expanded.len)
-			status = print_err(1, file, "ambiguous redirect");
+		if (expanded.len != 1)
+			status = print_err(1, redir->file, "ambiguous redirect");
 		else
-			status = handle_redir(data, redir);
-		free(redir->file);
+			status = handle_redir(data, redir->type, buffer_pop(&expanded));
 	}
 	buffer_free(&expanded, &free);
 	if (status)
-		reset_redirs(data, status);
+		reset_redirs(data);
 	return (status);
 }
 
@@ -119,7 +114,7 @@ int	exec_redirs(t_data *data)
 	return (print_errno(status < 0, 0));
 }
 
-int	reset_redirs(t_data *data, int status)
+void	reset_redirs(t_data *data)
 {
 	if (data->infile != STDIN_FILENO)
 	{
@@ -133,5 +128,4 @@ int	reset_redirs(t_data *data, int status)
 			close(data->outfile);
 		data->outfile = STDOUT_FILENO;
 	}
-	return (status);
 }

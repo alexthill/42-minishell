@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 15:39:06 by athill            #+#    #+#             */
-/*   Updated: 2024/05/02 10:07:27 by athill           ###   ########.fr       */
+/*   Updated: 2024/05/02 14:06:49 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	exec_pipe_helper(t_data *data, t_ast *ast, pid_t *pids)
 	while (++i < ast->children.len)
 	{
 		if (i == ast->children.len - 1)
-			link[1] = 1;
+			link[1] = STDOUT_FILENO;
 		else if (pipe(link))
 			return (print_errno(1, 0));
 		pids[i] = fork();
