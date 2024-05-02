@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:24:31 by athill            #+#    #+#             */
-/*   Updated: 2024/04/30 14:58:24 by athill           ###   ########.fr       */
+/*   Updated: 2024/05/02 09:19:37 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_data
 	int				infile;
 	int				outfile;
 	t_env			*env;
+	int				fd_in;
 }	t_data;
 
 // main.c
