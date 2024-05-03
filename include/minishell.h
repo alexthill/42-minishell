@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:24:31 by athill            #+#    #+#             */
-/*   Updated: 2024/05/02 14:22:05 by athill           ###   ########.fr       */
+/*   Updated: 2024/05/03 14:30:02 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # define NUM_ARG_REQUIRED	2
 # define SYNTAX_ERR			2
 # define CMD_NOT_FOUND		127
+# define INTERRUPTED		130
 # define MSG_TOO_MANY_ARGS		"too many arguments"
 # define MSG_NUM_ARG_REQUIRED	"numeric argument required"
 # define MSG_CMD_NOT_FOUND		"command not found"
@@ -47,9 +48,12 @@ typedef struct s_data
 	int				outfile;
 	t_env			*env;
 	int				fd_in;
+	int				signum;
 }	t_data;
 
 // main.c
+void	set_signum(int signum);
+int		get_signum(void);
 char	*get_line(t_data *data, char const *prompt);
 
 // error.c
@@ -69,7 +73,8 @@ char	*path_concat(char *p1, char *p2);
 // exec.c
 int		exec_line(t_data *data, char const *line);
 int		exec_ast(t_data *data, t_ast *ast);
-
+// exec_leaf.c
+int		exec_leaf(t_data *data, char **args);
 // exec_pipe.c
 int		exec_pipe(t_data *data, t_ast *ast);
 
@@ -109,8 +114,8 @@ t_env	*ft_lstnew2(void *name, void *value);
 char	**ft_split2(const char *s, char c);
 void	swap_nodes(t_env *node);
 
-//signal
-void	signal_init(void);
-void	signal_handler(int sign_num);
+// signal.c
+void	signal_init(int init, int for_readline);
+void	signal_default(void);
 
 #endif

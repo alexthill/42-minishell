@@ -11,6 +11,7 @@ SRCS = src/main.c \
 	   src/env_to_envp.c \
 	   src/env_var.c \
 	   src/exec.c \
+	   src/exec_leaf.c \
 	   src/exec_pipe.c \
 	   src/exec_redirs.c \
 	   src/expand_string.c \

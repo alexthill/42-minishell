@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 15:57:41 by athill            #+#    #+#             */
-/*   Updated: 2024/04/30 10:56:37 by athill           ###   ########.fr       */
+/*   Updated: 2024/05/02 15:49:18 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	is_meta(char c)
 		|| c == ')' || c == '<' || c == '>');
 }
 
-int	wait_for_process(pid_t pid)
+int	wait_for_process(pid_t pid, t_data *data)
 {
 	int	status;
 
@@ -33,7 +33,10 @@ int	wait_for_process(pid_t pid)
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	if (WIFSIGNALED(status))
+	{
+		data->signaled = 1;
 		return (WTERMSIG(status));
+	}
 	return (0);
 }
 

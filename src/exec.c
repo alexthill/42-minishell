@@ -6,67 +6,16 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 10:29:17 by athill            #+#    #+#             */
-/*   Updated: 2024/05/02 14:33:03 by athill           ###   ########.fr       */
+/*   Updated: 2024/05/03 15:09:27 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <signal.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include "buffer.h"
-#include "builtins.h"
 #include "minishell.h"
 #include "utils.h"
-
-static int	exec_extern(t_data *data, char **args)
-{
-	size_t	i;
-	char	*path;
-	char	**envp;
-	int		status;
-
-	status = env_to_envp(data, &envp);
-	if (status)
-		return (status);
-	if (args[0][0] == '.' || args[0][0] == '/')
-	{
-		execve(args[0], args, envp);
-		ft_str_array_free(envp);
-		return (translate_errno(print_errno(1, args[0])));
-	}
-	i = -1;
-	while (data->path[++i])
-	{
-		path = path_concat(data->path[i], args[0]);
-		execve(path, args, envp);
-		free(path);
-	}
-	ft_str_array_free(envp);
-	return (print_err(CMD_NOT_FOUND, args[0], MSG_CMD_NOT_FOUND));
-}
-
-static int	exec_leaf(t_data *data, char **args)
-{
-	pid_t	pid;
-	int		status;
-
-	if (!args || !args[0])
-		return (0);
-	if (is_builtin(args[0]))
-		return (exec_builtin(data, args));
-	pid = 0;
-	if (!data->in_pipe)
-		pid = fork();
-	if (pid < 0)
-		return (print_errno(1, 0));
-	if (pid)
-		return (wait_for_process(pid));
-	status = exec_redirs(data);
-	if (!status)
-		status = exec_extern(data, args);
-	ft_str_array_free(args);
-	data_free(data);
-	exit(status);
-}
 
 static int	exec_group(t_data *data, t_ast *ast)
 {
@@ -79,7 +28,8 @@ static int	exec_group(t_data *data, t_ast *ast)
 	if (pid < 0)
 		return (print_errno(1, 0));
 	if (pid)
-		return (wait_for_process(pid));
+		return (wait_for_process(pid, data));
+	signal_default();
 	status = exec_redirs(data);
 	data->in_pipe = 0;
 	data->infile = STDIN_FILENO;
@@ -90,6 +40,21 @@ static int	exec_group(t_data *data, t_ast *ast)
 	exit(status);
 }
 
+static int	exec_and_or(t_data *data, t_ast *ast)
+{
+	int	status;
+
+	if (ast->children.len != 2)
+		return (print_err(1, NULL, "and/or ast node has not 2 children"));
+	status = exec_ast(data, ast->children.ptr[0]);
+	if (get_signum() == SIGINT)
+		return (0);
+	if ((ast->type == NODE_AND && !status)
+		|| (ast->type == NODE_OR && status))
+		status = exec_ast(data, ast->children.ptr[1]);
+	return (status);
+}
+
 int	exec_ast(t_data *data, t_ast *ast)
 {
 	char		**args;
@@ -98,15 +63,12 @@ int	exec_ast(t_data *data, t_ast *ast)
 	status = check_redirs(data, &ast->redirs);
 	if (status)
 		return (status);
-	if (ast->type == NODE_GROUP)
+	if (get_signum() == SIGINT)
+		(void)"do nothing (yes, this a comment (f*** the norm))";
+	else if (ast->type == NODE_GROUP)
 		status = exec_group(data, ast);
 	else if (ast->type == NODE_OR || ast->type == NODE_AND)
-	{
-		status = exec_ast(data, ast->children.ptr[0]);
-		if ((ast->type == NODE_AND && !status)
-			|| (ast->type == NODE_OR && status))
-			status = exec_ast(data, ast->children.ptr[1]);
-	}
+		status = exec_and_or(data, ast);
 	else if (ast->type == NODE_PIPE)
 		status = exec_pipe(data, ast);
 	else if (ast->type == NODE_LEAF)

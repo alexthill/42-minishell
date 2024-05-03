@@ -6,11 +6,12 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 09:41:17 by athill            #+#    #+#             */
-/*   Updated: 2024/05/02 14:25:28 by athill           ###   ########.fr       */
+/*   Updated: 2024/05/03 13:38:23 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
+#include <signal.h>
 #include <unistd.h>
 #include "ast.h"
 #include "buffer.h"
@@ -27,7 +28,7 @@ static int	read_here_doc(t_data *data, char const *limiter)
 	while (1)
 	{
 		line = get_line(data, PROMPT_HEREDOC);
-		if (line == NULL || ft_streq(line, limiter))
+		if (get_signum() == SIGINT || line == NULL || ft_streq(line, limiter))
 			break ;
 		expanded = expand_string2(data, line);
 		free(line);

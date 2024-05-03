@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 15:39:06 by athill            #+#    #+#             */
-/*   Updated: 2024/05/02 14:06:49 by athill           ###   ########.fr       */
+/*   Updated: 2024/05/03 13:55:41 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 static int	exec_pipe_child(t_data *data, t_ast *ast, size_t i, int link[2])
 {
+	signal_default();
 	if (i != 0)
 	{
 		dup2(data->fd_in, STDIN_FILENO);
@@ -74,7 +75,7 @@ int	exec_pipe(t_data *data, t_ast *ast)
 	status = exec_pipe_helper(data, ast, pids);
 	i = -1;
 	while (++i < ast->children.len && pids[i])
-		status = wait_for_process(pids[i]);
+		status = wait_for_process(pids[i], data);
 	free(pids);
 	return (status);
 }
