@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 10:00:00 by athill            #+#    #+#             */
-/*   Updated: 2024/04/30 16:38:10 by athill           ###   ########.fr       */
+/*   Updated: 2024/05/03 13:19:50 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	data_init(t_data *data, int argc, char **argv, char **envp)
 	data->infile = STDIN_FILENO;
 	data->outfile = STDOUT_FILENO;
 	data->env = env_var_extract(envp);
+	data->signum = 0;
 	print_err_full(data->prog, 0, 0);
 	print_syntax_err(data->prog, 0);
 	if (data->env == NULL || data->path == NULL || update_shlvl(data))
