@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 12:39:47 by athill            #+#    #+#             */
-/*   Updated: 2024/05/02 11:21:01 by athill           ###   ########.fr       */
+/*   Updated: 2024/05/06 09:26:19 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	expand_return_status(t_data *data, t_string *str)
 	s = ft_itoa(data->last_status);
 	if (s == 0)
 		exit(print_errno(1, 0));
-	string_concat(str, s);
+	string_concat_and_free(str, s);
 	return (1);
 }
 
@@ -45,7 +45,7 @@ static int	expand_var(t_data *data, char const *s, t_string *str, char *escape)
 		exit(print_errno(1, 0));
 	value = get_env_var(data, name);
 	if (value && escape)
-		string_concat(str, str_escape(value, '\\', escape));
+		string_concat_and_free(str, str_escape(value, '\\', escape));
 	else if (value)
 		string_concat(str, value);
 	free(name);

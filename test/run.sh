@@ -6,9 +6,17 @@ echo "        _       _     _          _ _    _           _
 / /\/\ \ | | | | \__ \ | | |  __/ | |  | ||  __\__ | ||  __| |   
 \/    \/_|_| |_|_|___/_| |_|\___|_|_|   \__\___|___/\__\___|_|   
                                                                  "
+all=1
 bonus=0
+valgrind=0
 if [ "$1" = "b" ] || [ "$1" = "a" ]; then
+	if [ "$1" = "b" ]; then
+		all=0
+	fi
 	bonus=1
+fi
+if [ "$1" = "valgrind" ] || [ "$2" = "valgrind" ]; then
+	valgrind=1
 fi
 
 out=$(make -C ..)
@@ -21,6 +29,27 @@ fi
 errcount=0
 rm -rf diffs temp
 mkdir diffs temp
+
+handle_valgrind() {
+	cd temp
+	echo "infile content" > infile
+	echo "infile second line" >> infile
+	touch readonly
+	chmod -wx readonly
+	out=$(echo "$1" | tr ';' '\n' | valgrind $2 2>&1 >/dev/null)
+	cd ..
+	rm -rf temp/*
+	lost=$(echo "$out" | grep "definitely lost: [^0]" | wc -l)
+	reachable=$(echo "$out" | grep "still reachable: [^0]" | wc -l)
+	if [[ "$lost" -ne "0" ]]; then
+		echo -e "\033[1;31mLEAK\033[0m"
+		errcount=$((errcount + 1))
+	elif [[ "$reachable" -ne "0" ]]; then
+		echo -e "\033[1;33mREACHABLE\033[0m"
+	else
+		echo -e "\033[1;32mALL FREED\033[0m"
+	fi
+}
 
 handle_cmd() {
 	cd temp
@@ -65,10 +94,13 @@ execute_file_tests() {
 		echo -n "${array[1]} "
 		diff="diffs/${array[0]}.diff"
 		CMD="${array[1]}"
-		touch expected
-		handle_cmd "expected" "$CMD" "bash"
-		handle_cmd "found" "$CMD" "../../minishell"
-		handle_diff "echo '${CMD//\'/\\\'}' | tr ';' '\\n' | [shell]" "$diff"
+		if [[ $valgrind -eq "1" ]]; then
+			handle_valgrind "$CMD" "../../minishell"
+		else
+			handle_cmd "expected" "$CMD" "bash"
+			handle_cmd "found" "$CMD" "../../minishell"
+			handle_diff "echo '${CMD//\'/\\\'}' | tr ';' '\\n' | [shell]" "$diff"
+		fi;
 	done < "$filename";
 }
 
@@ -77,6 +109,9 @@ if [[ "$1" == /* ]]; then
 else
 	for filename in $(find test_cases -type f -exec echo "{}" \;); do
 		if [[ $filename == test_cases/bonus/* && $bonus -eq "0" ]]; then
+			continue
+		fi
+		if [[ $filename != test_cases/bonus/* && $all -eq "0" ]]; then
 			continue
 		fi
 		execute_file_tests "$filename"
@@ -94,5 +129,9 @@ elif [[ $errcount -eq 1 ]]; then
 	echo "diff has been written to ./diffs/"
 else
 	echo -e "\033[1;31m${errcount} TESTS FAILED!\033[0m"
-	echo "diffs have been written to ./diffs/"
+	if [[ $valgrind -ne "1" ]]; then
+		echo "diffs have been written to ./diffs/"
+	else
+		rmdir diffs
+	fi
 fi

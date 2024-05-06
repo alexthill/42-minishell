@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 15:57:41 by athill            #+#    #+#             */
-/*   Updated: 2024/05/02 15:49:18 by athill           ###   ########.fr       */
+/*   Updated: 2024/05/06 09:02:15 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,13 @@ int	wait_for_process(pid_t pid, t_data *data)
 {
 	int	status;
 
+	(void)data;
 	if (waitpid(pid, &status, 0) < 0)
 		return (print_errno(1, "waitpid"));
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	if (WIFSIGNALED(status))
-	{
-		data->signaled = 1;
 		return (WTERMSIG(status));
-	}
 	return (0);
 }
 

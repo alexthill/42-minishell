@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 13:32:03 by athill            #+#    #+#             */
-/*   Updated: 2024/05/02 14:27:27 by athill           ###   ########.fr       */
+/*   Updated: 2024/05/06 09:14:17 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ static int	ast_parse_redir(t_buffer const *tokens, size_t *i, t_buffer *redirs)
 		return (print_err(1, "called ast_parse_redir with bad token", token));
 	*i = *i + 1;
 	redir->file = tokens->ptr[*i];
+	buffer_push(redirs, redir);
 	if (is_meta(redir->file[0]))
 		return (print_syntax_err(NULL, redir->file));
-	buffer_push(redirs, redir);
 	return (0);
 }
 
