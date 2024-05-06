@@ -65,7 +65,7 @@ handle_cmd() {
 	err=$(cat out_stderr | sed 's/[^:]\+: \(line [^:]\+: \)\?/[progname]: /')
 	echo "" >> "$1"
 	echo "======== stderr =======" >> "$1"
-	echo "$err" | sed -z "s/.*syntax error.*/[syntax error msg]\n/" >> "$1"
+	echo "$err" | sed 's/: \.\/infile:/: infile:/' | sed -z "s/.*syntax error.*/[syntax error msg]\n/" >> "$1"
 	echo "======== return =======" >> "$1"
 	echo "return value: $res" >> "$1"
 }
@@ -91,9 +91,9 @@ execute_file_tests() {
 	echo "==== $filename ===="
 	while read line; do
 		IFS='	'; set -f; array=($line); unset IFS; set +f
-		echo -n "${array[1]} "
+		CMD="${array[1]//\[\[USER\]\]/$USER}"
+		echo -n "$CMD "
 		diff="diffs/${array[0]}.diff"
-		CMD="${array[1]}"
 		if [[ $valgrind -eq "1" ]]; then
 			handle_valgrind "$CMD" "../../minishell"
 		else

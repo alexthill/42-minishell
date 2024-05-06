@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:24:31 by athill            #+#    #+#             */
-/*   Updated: 2024/05/03 14:30:02 by athill           ###   ########.fr       */
+/*   Updated: 2024/05/06 11:58:00 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,11 @@
 # define SYNTAX_ERR			2
 # define CMD_NOT_FOUND		127
 # define INTERRUPTED		130
+# define FILE_NOT_FOUND		130
 # define MSG_TOO_MANY_ARGS		"too many arguments"
 # define MSG_NUM_ARG_REQUIRED	"numeric argument required"
 # define MSG_CMD_NOT_FOUND		"command not found"
+# define MSG_FILE_NOT_FOUND		"No such file or directory"
 # define MSG_CD_ERR				"No such file or directory"
 
 typedef struct s_env
@@ -39,7 +41,6 @@ typedef struct s_data
 {
 	char			*prog;
 	char			**envp;
-	char			**path;
 	int				is_tty;
 	int				exit;
 	int				in_pipe;
@@ -67,8 +68,9 @@ int		data_free(t_data *data);
 int		data_set_status(t_data *data, int status);
 
 // path.c
-char	**path_extract(char **envp);
-char	*path_concat(char *p1, char *p2);
+int		path_is_empty(t_data *data);
+char	**path_get(t_data *data);
+char	*path_concat(char const *p1, char const *p2);
 
 // exec.c
 int		exec_line(t_data *data, char const *line);
