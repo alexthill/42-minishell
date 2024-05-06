@@ -9,6 +9,7 @@ export_4		export "salut"=test
 export_split	export A="variable with space"
 export_5		export test5=""
 export_color	export test=$COLORTERM=colorcolor
+export_user		export USER=itsame
 export_invalid_minus1	export A-
 export_invalid_minus2	export A-=123
 export_invalid_equal	export =

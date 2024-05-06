@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 09:42:56 by ehamm             #+#    #+#             */
-/*   Updated: 2024/04/24 17:42:04 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/05/06 09:46:38 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	modify_or_add_env_variable(t_data *data, char *name, char *value)
 	{
 		if (node->name != NULL && ft_streq(node->name, name))
 		{
+			free(name);
 			free(node->value);
 			node->value = value;
 			return (0);
@@ -101,14 +102,9 @@ int	cmd_export(t_data *data, char **args)
 		splitted = ft_split2(args[1], '=');
 		if (splitted == 0 || splitted[0] == 0)
 			return (free(splitted), 0);
-		name = ft_strdup(splitted[0]);
-		if (splitted[1] != NULL)
-			value = ft_strdup(splitted[1]);
-		else
-			value = NULL;
+		name = splitted[0];
+		value = splitted[1];
 		free(splitted);
-		if (name == NULL)
-			return (free(name), 0);
 		modify_or_add_env_variable(data, name, value);
 	}
 	else
