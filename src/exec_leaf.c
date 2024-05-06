@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 13:57:32 by athill            #+#    #+#             */
-/*   Updated: 2024/05/03 14:10:15 by athill           ###   ########.fr       */
+/*   Updated: 2024/05/06 15:49:15 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,36 @@
 #include "minishell.h"
 #include "utils.h"
 
+static int	exec_check_path(t_data *data, char **args, char **envp)
+{
+	char	**path_parts;
+	char	*path;
+	size_t	i;
+
+	path_parts = path_get(data);
+	if (path_parts == NULL)
+		return (-1);
+	i = -1;
+	while (path_parts[++i])
+	{
+		path = path_concat(path_parts[i], args[0]);
+		if (path && access(path, F_OK) == 0)
+		{
+			execve(path, args, envp);
+			free(path);
+			ft_str_array_free(path_parts);
+			return (translate_errno(print_errno(1, args[0])));
+		}
+		free(path);
+	}
+	ft_str_array_free(path_parts);
+	if (path_is_empty(data))
+		return (print_err(FILE_NOT_FOUND, args[0], MSG_FILE_NOT_FOUND));
+	return (print_err(CMD_NOT_FOUND, args[0], MSG_CMD_NOT_FOUND));
+}
+
 static int	exec_extern(t_data *data, char **args)
 {
-	size_t	i;
-	char	*path;
 	char	**envp;
 	int		status;
 
@@ -29,18 +55,12 @@ static int	exec_extern(t_data *data, char **args)
 	if (args[0][0] == '.' || args[0][0] == '/')
 	{
 		execve(args[0], args, envp);
-		ft_str_array_free(envp);
-		return (translate_errno(print_errno(1, args[0])));
+		status = translate_errno(print_errno(1, args[0]));
 	}
-	i = -1;
-	while (data->path[++i])
-	{
-		path = path_concat(data->path[i], args[0]);
-		execve(path, args, envp);
-		free(path);
-	}
+	else
+		status = exec_check_path(data, args, envp);
 	ft_str_array_free(envp);
-	return (print_err(CMD_NOT_FOUND, args[0], MSG_CMD_NOT_FOUND));
+	return (status);
 }
 
 int	exec_leaf(t_data *data, char **args)
