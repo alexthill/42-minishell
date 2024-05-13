@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:03:48 by athill            #+#    #+#             */
-/*   Updated: 2024/04/29 09:47:35 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/05/13 17:14:50 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "minishell.h"
 #include <errno.h>
 #include <string.h>
+#include <unistd.h>
 
 int	print_err(int code, char const *s, char const *msg)
 {
@@ -50,5 +51,24 @@ int	print_err_full(char *prog, char const *extra, char const *msg)
 	else
 		ft_putstr_fd(strerror(errno), 2);
 	ft_putendl_fd("", 2);
+	return (errno);
+}
+
+int	print_err_more(t_data *prog, char *ext, char *ext2, char *msg)
+{
+	ft_putstr_fd(prog->prog, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	if (ext)
+		ft_putstr_fd(ext, STDERR_FILENO);
+	if (ext2)
+	{
+		ft_putstr_fd(ext2, STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
+	}
+	if (msg)
+		ft_putstr_fd(msg, STDERR_FILENO);
+	else
+		ft_putstr_fd(strerror(errno), STDERR_FILENO);
+	ft_putchar_fd('\n', STDERR_FILENO);
 	return (errno);
 }

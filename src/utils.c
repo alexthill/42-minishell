@@ -6,12 +6,12 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 15:57:41 by athill            #+#    #+#             */
-/*   Updated: 2024/05/06 09:02:15 by athill           ###   ########.fr       */
+/*   Updated: 2024/05/13 16:52:42 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/wait.h>
 #include "minishell.h"
+#include <sys/wait.h>
 
 int	is_blank(char c)
 {
@@ -45,4 +45,28 @@ int	translate_errno(int err)
 	if (err == 13)
 		return (126);
 	return (err);
+}
+
+int	is_invalid_char_exp(char **args)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (args[i])
+	{
+		j = 0;
+		while (args[i][j])
+		{
+			if (ft_isdigit(args[i][0]))
+				return (1);
+			if (args[i][0] == '=')
+				return (1);
+			if (args[i][j] == '-')
+				return (1);
+			j++;
+		}
+		i++;
+	}
+	return (0);
 }
