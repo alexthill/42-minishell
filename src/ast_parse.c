@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 14:38:32 by athill            #+#    #+#             */
-/*   Updated: 2024/05/02 14:47:10 by athill           ###   ########.fr       */
+/*   Updated: 2024/05/13 11:01:18 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ int	ast_parse(t_buffer const *tokens, t_buffer *stack)
 	int		status;
 	t_ast	*node;
 
-	buffer_init(stack);
 	i = -1;
 	status = 0;
 	while (++i < tokens->len)

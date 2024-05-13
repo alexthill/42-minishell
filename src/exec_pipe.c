@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 15:39:06 by athill            #+#    #+#             */
-/*   Updated: 2024/05/03 13:55:41 by athill           ###   ########.fr       */
+/*   Updated: 2024/05/13 11:31:34 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 
 static int	exec_pipe_child(t_data *data, t_ast *ast, size_t i, int link[2])
 {
+	int	status;
+
 	signal_default();
 	if (i != 0)
 	{
@@ -31,7 +33,9 @@ static int	exec_pipe_child(t_data *data, t_ast *ast, size_t i, int link[2])
 		close(link[1]);
 	}
 	data->in_pipe = 1;
-	return (exec_ast(data, ast->children.ptr[i]));
+	status = exec_ast(data, ast->children.ptr[i]);
+	data_free(data);
+	return (status);
 }
 
 static int	exec_pipe_helper(t_data *data, t_ast *ast, pid_t *pids)
@@ -50,7 +54,7 @@ static int	exec_pipe_helper(t_data *data, t_ast *ast, pid_t *pids)
 		if (pids[i] < 0)
 			return (print_errno(1, 0));
 		if (pids[i] == 0)
-			exit(exec_pipe_child(data, ast, i, link));
+			(free(pids), exit(exec_pipe_child(data, ast, i, link)));
 		if (i != 0)
 			close(data->fd_in);
 		if (i != ast->children.len - 1)

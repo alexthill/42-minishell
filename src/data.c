@@ -6,12 +6,13 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 10:00:00 by athill            #+#    #+#             */
-/*   Updated: 2024/05/06 11:58:31 by athill           ###   ########.fr       */
+/*   Updated: 2024/05/13 11:09:04 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include "buffer.h"
+#include "get_next_line.h"
 #include "libft.h"
 #include "minishell.h"
 
@@ -44,6 +45,8 @@ int	data_init(t_data *data, int argc, char **argv, char **envp)
 	data->outfile = STDOUT_FILENO;
 	data->env = env_var_extract(envp);
 	data->signum = 0;
+	buffer_init(&data->tokens);
+	buffer_init(&data->ast_stack);
 	print_err_full(data->prog, 0, 0);
 	print_syntax_err(data->prog, 0);
 	if (data->env == NULL || update_shlvl(data))
@@ -55,6 +58,9 @@ int	data_free(t_data *data)
 {
 	t_env	*node;
 
+	get_next_line(-1);
+	buffer_free(&data->tokens, &free);
+	buffer_free(&data->ast_stack, &ast_free);
 	while (data->env)
 	{
 		node = data->env;

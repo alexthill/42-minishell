@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:24:31 by athill            #+#    #+#             */
-/*   Updated: 2024/05/13 17:13:49 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/05/13 17:22:42 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include "ast.h"
+# include "buffer.h"
 # include "libft.h"
 
 # define PROMPT			"minishell> "
@@ -50,6 +51,8 @@ typedef struct s_data
 	t_env			*env;
 	int				fd_in;
 	int				signum;
+	t_buffer		tokens;
+	t_buffer		ast_stack;
 }	t_data;
 
 // main.c
@@ -74,13 +77,12 @@ char	**path_get(t_data *data);
 char	*path_concat(char const *p1, char const *p2);
 
 // exec.c
-int		exec_line(t_data *data, char const *line);
+int		exec_line(t_data *data, char *line);
 int		exec_ast(t_data *data, t_ast *ast);
 // exec_leaf.c
 int		exec_leaf(t_data *data, char **args);
 // exec_pipe.c
 int		exec_pipe(t_data *data, t_ast *ast);
-
 // exec_redirs.c
 int		check_redirs(t_data *data, t_buffer *redirs);
 int		exec_redirs(t_data *data);

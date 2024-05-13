@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:30:00 by athill            #+#    #+#             */
-/*   Updated: 2024/05/03 14:29:48 by athill           ###   ########.fr       */
+/*   Updated: 2024/05/13 11:13:47 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,19 +64,17 @@ int	main(int argc, char **argv, char **envp)
 	line = 0;
 	while (data.exit == 0)
 	{
-		free(line);
 		line = get_line(&data, PROMPT);
 		if (!line)
 			break ;
+		if (data.is_tty)
+			add_history(line);
 		exec_line(&data, line);
 		if (get_signum() == SIGINT)
 			data.last_status = INTERRUPTED;
-		if (data.is_tty)
-			add_history(line);
 	}
 	if (data.is_tty)
 		ft_putendl_fd("exit", STDOUT_FILENO);
-	free(line);
 	data_free(&data);
 	return (data.last_status);
 }
