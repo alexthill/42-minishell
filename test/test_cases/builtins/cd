@@ -6,6 +6,7 @@ cd_2			cd .
 cd_3			cd ../../..
 cd_4			cd /
 cd_users		cd /Users
+cd_5			cd -
 cd_6			Cd .
 cd_7			cD .
 cd_8			cd /.
