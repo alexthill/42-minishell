@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 16:00:11 by athill            #+#    #+#             */
-/*   Updated: 2024/05/13 16:07:14 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/05/13 17:23:00 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ int	ast_tokenize(char const *s, t_buffer *tokens, int quote)
 {
 	char const	*start;
 
-	buffer_init(tokens);
 	while (1)
 	{
 		while (is_blank(*s))

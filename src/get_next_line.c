@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 10:58:57 by athill            #+#    #+#             */
-/*   Updated: 2024/03/06 08:20:54 by athill           ###   ########.fr       */
+/*   Updated: 2024/05/13 11:08:06 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,9 @@ char	*get_next_line(int fd)
 	char				*end;
 	char				*s;
 
-	if (BUFFER_SIZE <= 0 || fd < 0)
-		return (0);
-	end = read_next_line(fd, &buf);
+	end = 0;
+	if (BUFFER_SIZE > 0 && fd >= 0)
+		end = read_next_line(fd, &buf);
 	if (end == 0 || buf.start == end)
 	{
 		free(buf.ptr);

@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 10:29:17 by athill            #+#    #+#             */
-/*   Updated: 2024/05/03 15:09:27 by athill           ###   ########.fr       */
+/*   Updated: 2024/05/13 11:14:02 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,30 +81,29 @@ int	exec_ast(t_data *data, t_ast *ast)
 	return (status);
 }
 
-int	exec_line(t_data *data, char const *line)
+int	exec_line(t_data *data, char *line)
 {
-	t_buffer	tokens;
-	t_buffer	stack;
 	int			status;
 
-	status = ast_tokenize(line, &tokens, 0);
+	status = ast_tokenize(line, &data->tokens, 0);
+	free(line);
 	if (status)
 	{
-		buffer_free(&tokens, &free);
+		buffer_free(&data->tokens, &free);
 		return (data_set_status(data, status));
 	}
-	status = ast_parse(&tokens, &stack);
+	status = ast_parse(&data->tokens, &data->ast_stack);
 	if (status)
 	{
-		buffer_free(&tokens, &free);
-		buffer_free(&stack, &ast_free);
+		buffer_free(&data->tokens, &free);
+		buffer_free(&data->ast_stack, &ast_free);
 		return (data_set_status(data, status));
 	}
-	if (stack.len == 1)
-		data_set_status(data, exec_ast(data, buffer_last(&stack)));
-	else if (stack.len > 1)
+	if (data->ast_stack.len == 1)
+		data_set_status(data, exec_ast(data, buffer_last(&data->ast_stack)));
+	else if (data->ast_stack.len > 1)
 		data_set_status(data, print_err(1, 0, "something went wrong parsing"));
-	buffer_free(&tokens, &free);
-	buffer_free(&stack, &ast_free);
+	buffer_free(&data->tokens, &free);
+	buffer_free(&data->ast_stack, &ast_free);
 	return (data->last_status);
 }
