@@ -5,3 +5,7 @@ questionable_SHLVL			echo $SHLVL
 questionable_glob_order		touch a b c A B C aa ab ac Aa Ab Ac aA aB aC; echo *
 questionable_expansion		export a="a    b"; echo $a
 questionable_redir_ambiguous	cat < *;
+questionable_exec_dot		.
+questionable_exec_dotdot	..
+questionable_exec_dotslash	./
+questionable_exec_dir		export PATH="$PATH:$PWD"; mkdir asdfg; asdfg

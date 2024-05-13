@@ -13,6 +13,7 @@ glob_cmd2			rm *; touch ls; *
 glob_redir			rm readonly; cat *;
 glob_mutliple		echo * in* *
 glob_in_var			export a='*file'; echo $a
+glob_in_var_quotes	export a='"*file"'; echo $a
 glob_redir_ambiguous	touch a b c; cat *;
 glob_in_single_quotes	echo '*'
 glob_in_double_quotes	echo "*"

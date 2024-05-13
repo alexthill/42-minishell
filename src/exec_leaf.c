@@ -6,15 +6,25 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 13:57:32 by athill            #+#    #+#             */
-/*   Updated: 2024/05/06 15:49:15 by athill           ###   ########.fr       */
+/*   Updated: 2024/05/13 13:59:44 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include <sys/stat.h>
 #include <unistd.h>
 #include "builtins.h"
 #include "minishell.h"
 #include "utils.h"
+
+static int	check_if_dir(char const *pathname)
+{
+	struct stat	statbuf;
+
+	if (stat(pathname, &statbuf) == -1)
+		return (0);
+	return ((statbuf.st_mode & S_IFMT) == S_IFDIR);
+}
 
 static int	exec_check_path(t_data *data, char **args, char **envp)
 {
@@ -29,7 +39,7 @@ static int	exec_check_path(t_data *data, char **args, char **envp)
 	while (path_parts[++i])
 	{
 		path = path_concat(path_parts[i], args[0]);
-		if (path && access(path, F_OK) == 0)
+		if (path && !access(path, F_OK) && !check_if_dir(path))
 		{
 			execve(path, args, envp);
 			free(path);
@@ -52,7 +62,11 @@ static int	exec_extern(t_data *data, char **args)
 	status = env_to_envp(data, &envp);
 	if (status)
 		return (status);
-	if (args[0][0] == '.' || args[0][0] == '/')
+	if (ft_streq(args[0], ".."))
+		status = print_err(CMD_NOT_FOUND, args[0], MSG_CMD_NOT_FOUND);
+	else if ((args[0][0] == '.' || args[0][0] == '/') && check_if_dir(args[0]))
+		status = print_err(126, args[0], "Is a directory");
+	else if (args[0][0] == '.' || args[0][0] == '/')
 	{
 		execve(args[0], args, envp);
 		status = translate_errno(print_errno(1, args[0]));
