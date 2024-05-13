@@ -6,12 +6,13 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 16:09:43 by elo               #+#    #+#             */
-/*   Updated: 2024/05/13 17:59:58 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/05/13 18:17:12 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -94,6 +95,10 @@ int	cmd_cd(t_data *data, char **args)
 {
 	char	*path;
 
+	if (count_arg(args) > 2)
+		return (print_err(1, "cd", MSG_TOO_MANY_ARGS));
+	if (args[1][0] == '\0')
+		return (1);
 	if (args[1] == 0)
 		path = get_env_var(data, "HOME");
 	else if (ft_streq(args[1], "-") == 1)
