@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 17:30:29 by ehamm             #+#    #+#             */
-/*   Updated: 2024/04/23 18:02:05 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/05/13 12:22:06 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,7 @@ int	cmd_pwd(t_data *data, char **args)
 {
 	char	*pwd;
 
-	if (args[1] != NULL)
-	{
-		print_errno(0, "MSG_PWD_ERR");
-		return (1);
-	}
+	(void)args;
 	pwd = getcwd(NULL, 0);
 	if (pwd == NULL)
 	{

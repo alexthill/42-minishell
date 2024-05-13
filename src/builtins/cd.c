@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 16:09:43 by elo               #+#    #+#             */
-/*   Updated: 2024/04/29 09:51:16 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/05/13 17:09:19 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,11 @@ int	update_oldpwd(t_data *data, char **args)
 
 	oldpwd = get_env_var(data, "PWD");
 	if (oldpwd == NULL)
-		return (print_err(1, args[1], MSG_CD_ERR));
+		return (print_err(1, ft_strjoin("cd: ", args[1]), MSG_FILE_NOT_FOUND));
 	if (set_env_var(data, "OLDPWD", oldpwd) == 1)
 	{
 		free(oldpwd);
-		print_err(1, args[1], MSG_CD_ERR);
+		print_err(1, ft_strjoin("cd: ", args[1]), MSG_FILE_NOT_FOUND);
 		return (1);
 	}
 	return (0);
@@ -78,13 +78,13 @@ int	update_pwd(t_data *data, char **args)
 
 	curr = getcwd(NULL, 0);
 	if (curr == NULL)
-		return (print_err(1, args[1], MSG_CD_ERR));
+		return (print_err(1, ft_strjoin("cd: ", args[1]), MSG_FILE_NOT_FOUND));
 	res = set_env_var(data, "PWD", curr);
 	free(curr);
 	if (res == 1)
 	{
 		free(curr);
-		print_err(1, args[1], MSG_CD_ERR);
+		print_err(1, ft_strjoin("cd: ", args[1]), MSG_FILE_NOT_FOUND);
 		return (1);
 	}
 	return (0);
@@ -99,7 +99,7 @@ int	cmd_cd(t_data *data, char **args)
 	else
 		path = args[1];
 	if (chdir(path) == -1)
-		return (print_err(1, args[1], MSG_CD_ERR));
+		return (print_err(1, ft_strjoin("cd: ", args[1]), MSG_FILE_NOT_FOUND));
 	if (update_oldpwd(data, args) == 1)
 		return (1);
 	if (update_pwd(data, args) == 1)

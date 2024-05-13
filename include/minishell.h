@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:24:31 by athill            #+#    #+#             */
-/*   Updated: 2024/05/06 11:58:00 by athill           ###   ########.fr       */
+/*   Updated: 2024/05/13 17:13:49 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # define MSG_NUM_ARG_REQUIRED	"numeric argument required"
 # define MSG_CMD_NOT_FOUND		"command not found"
 # define MSG_FILE_NOT_FOUND		"No such file or directory"
-# define MSG_CD_ERR				"No such file or directory"
+# define MSG_EXPORT_ERR			"not a valid identifier"
 
 typedef struct s_env
 {
@@ -61,6 +61,7 @@ char	*get_line(t_data *data, char const *prompt);
 int		print_err(int code, char const *s, char const *msg);
 int		print_errno(int is_err, char const *s);
 int		print_err_full(char *prog, char const *extra, char const *msg);
+int		print_err_more(t_data *prog, char *ext, char *ext2, char *msg);
 
 // data.c
 int		data_init(t_data *data, int argc, char **argv, char **envp);
@@ -115,6 +116,7 @@ void	ft_lstadd_front2(t_env **lst, t_env *new);
 t_env	*ft_lstnew2(void *name, void *value);
 char	**ft_split2(const char *s, char c);
 void	swap_nodes(t_env *node);
+int		is_invalid_char_exp(char **args);
 
 // signal.c
 void	signal_init(int init, int for_readline);

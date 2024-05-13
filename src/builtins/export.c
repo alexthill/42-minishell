@@ -6,14 +6,16 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 09:42:56 by ehamm             #+#    #+#             */
-/*   Updated: 2024/05/06 09:46:38 by athill           ###   ########.fr       */
+/*   Updated: 2024/05/13 17:21:18 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 
 int	modify_or_add_env_variable(t_data *data, char *name, char *value)
@@ -97,6 +99,9 @@ int	cmd_export(t_data *data, char **args)
 	char	*value;
 	char	**splitted;
 
+	if (is_invalid_char_exp(args) == 1)
+		return (print_err_more(data, ft_strjoin("export: `", args[1]), "'",
+				MSG_EXPORT_ERR));
 	if (args[1] != 0)
 	{
 		splitted = ft_split2(args[1], '=');

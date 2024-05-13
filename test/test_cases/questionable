@@ -5,3 +5,4 @@ questionable_SHLVL			echo $SHLVL
 questionable_glob_order		touch a b c A B C aa ab ac Aa Ab Ac aA aB aC; echo *
 questionable_expansion		export a="a    b"; echo $a
 questionable_redir_ambiguous	cat < *;
+questionnable_cd_path		cd -
