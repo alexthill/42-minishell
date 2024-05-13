@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 15:57:41 by athill            #+#    #+#             */
-/*   Updated: 2024/05/13 17:51:37 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/05/13 18:03:33 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,15 @@ int	is_invalid_char_exp(char **args)
 		i++;
 	}
 	return (0);
+}
+
+int	count_arg(char **args)
+{
+	int	count;
+
+	count = 0;
+	while (args[count])
+		count++;
+	return (count);
 }
 

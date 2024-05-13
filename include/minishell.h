@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:24:31 by athill            #+#    #+#             */
-/*   Updated: 2024/05/13 17:52:24 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/05/13 18:04:07 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ t_env	*ft_lstnew2(void *name, void *value);
 char	**ft_split2(const char *s, char c);
 void	swap_nodes(t_env *node);
 int		is_invalid_char_exp(char **args);
+int		count_arg(char **args);
 
 // signal.c
 void	signal_init(int init, int for_readline);

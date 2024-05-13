@@ -1,4 +1,3 @@
-cd				cd; ls
 cd_prev			cd ..
 cd_0			cd..
 cd_1			cd ./srcs

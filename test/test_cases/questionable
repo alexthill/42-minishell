@@ -9,4 +9,4 @@ questionable_exec_dot		.
 questionable_exec_dotdot	..
 questionable_exec_dotslash	./
 questionable_exec_dir		export PATH="$PATH:$PWD"; mkdir asdfg; asdfg
-questionable_cd_path		cd -
+questionable_cd_path		cd; ls
