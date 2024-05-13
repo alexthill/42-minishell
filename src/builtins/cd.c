@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 16:09:43 by elo               #+#    #+#             */
-/*   Updated: 2024/05/13 17:09:19 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/05/13 17:59:58 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,12 @@ int	cmd_cd(t_data *data, char **args)
 
 	if (args[1] == 0)
 		path = get_env_var(data, "HOME");
+	else if (ft_streq(args[1], "-") == 1)
+	{
+		path = get_env_var(data, "OLDPWD");
+		ft_putstr_fd(path, data->outfile);
+		ft_putstr_fd("\n", data->outfile);
+	}
 	else
 		path = args[1];
 	if (chdir(path) == -1)
