@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 15:57:41 by athill            #+#    #+#             */
-/*   Updated: 2024/05/13 18:03:33 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/05/13 18:37:29 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,38 +46,3 @@ int	translate_errno(int err)
 		return (126);
 	return (err);
 }
-
-int	is_invalid_char_exp(char **args)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (args[i])
-	{
-		j = 0;
-		while (args[i][j])
-		{
-			if (ft_isdigit(args[i][0]))
-				return (1);
-			if (args[i][0] == '=')
-				return (1);
-			if (args[i][j] == '-')
-				return (1);
-			j++;
-		}
-		i++;
-	}
-	return (0);
-}
-
-int	count_arg(char **args)
-{
-	int	count;
-
-	count = 0;
-	while (args[count])
-		count++;
-	return (count);
-}
-
