@@ -6,17 +6,17 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:37:03 by ehamm             #+#    #+#             */
-/*   Updated: 2024/05/14 16:10:02 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/05/14 16:16:36 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_valid_char_exp(t_data *data, char **args,int i)
+int	is_valid_char_exp(t_data *data, char **args, int i)
 {
-	int	j;
-	char **tmp;
-	int status;
+	int		j;
+	char	**tmp;
+	int		status;
 
 	i = 0;
 	status = 0;
@@ -35,14 +35,4 @@ int	is_valid_char_exp(t_data *data, char **args,int i)
 		i++;
 	}
 	return (status);
-}
-
-int	count_arg(char **args)
-{
-	int count;
-
-	count = 0;
-	while (args[count])
-		count++;
-	return (count);
 }
