@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 16:09:43 by ehamm             #+#    #+#             */
-/*   Updated: 2024/05/14 15:41:38 by athill           ###   ########.fr       */
+/*   Updated: 2024/05/14 16:38:54 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,10 @@ int	cmd_cd(t_data *data, char **args)
 {
 	char	*path;
 
-	if (count_arg(args) > 2)
-		return (print_err(1, "cd", MSG_TOO_MANY_ARGS));
 	if (args[1] == 0)
 		path = get_env_var(data, "HOME");
+	else if (args[2] != 0)
+		return (print_err(1, "cd", MSG_TOO_MANY_ARGS));
 	else if (args[1][0] == '\0')
 		return (1);
 	else if (ft_streq(args[1], "-") == 1)

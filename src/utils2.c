@@ -6,43 +6,34 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:37:03 by ehamm             #+#    #+#             */
-/*   Updated: 2024/05/14 16:10:02 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/05/14 16:36:31 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_valid_char_exp(t_data *data, char **args,int i)
+int	is_valid_char_exp(t_data *data, char **args)
 {
+	int	i;
 	int	j;
-	char **tmp;
-	int status;
+	int	status;
 
-	i = 0;
+	i = -1;
 	status = 0;
-	while (args[i])
+	while (args[++i])
 	{
-		tmp = ft_split2(args[i], '=');
 		j = 0;
-		if (!ft_isalpha(tmp[0][0]) && tmp[0][0] != '_')
-			status = print_export_err(data, args[i]);
-		while (tmp[0][j])
+		if (args[i][0] && !ft_isalpha(args[i][0]) && args[i][0] != '_')
 		{
-			if (!ft_isalnum(tmp[0][j]) && tmp[0][j] != '_' && tmp[0][j])
-				status = print_export_err(data, args[i]);
-			j++;
+			status = print_export_err(data, args[i]);
+			continue ;
 		}
-		i++;
+		while (args[i][j] && args[i][j] != '='
+			&& (ft_isalnum(args[i][j]) || args[i][j] == '_'))
+			j++;
+		if (args[i][j] && args[i][j] != '='
+			&& !ft_isalnum(args[i][j]) && args[i][j] != '_')
+			status = print_export_err(data, args[i]);
 	}
 	return (status);
-}
-
-int	count_arg(char **args)
-{
-	int count;
-
-	count = 0;
-	while (args[count])
-		count++;
-	return (count);
 }
