@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 09:42:56 by ehamm             #+#    #+#             */
-/*   Updated: 2024/05/14 15:03:27 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/05/14 15:54:14 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,7 @@ int	cmd_export(t_data *data, char **args, int i)
 	char	**splitted;
 
 	if (is_valid_char_exp(data,args,i) == 1)
-		return (print_err_more(data, ft_strjoin("export: `", args[i]), "'",
-				MSG_EXPORT_ERR));
+		return (print_export_err(data, args[i]));
 	if (args[1] != 0)
 	{
 		splitted = ft_split2(args[1], '=');

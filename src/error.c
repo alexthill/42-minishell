@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:03:48 by athill            #+#    #+#             */
-/*   Updated: 2024/05/14 15:04:15 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/05/14 16:00:23 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,18 @@ int	print_err_more(t_data *prog, char *ext, char *ext2, char *msg)
 	else
 		ft_putstr_fd(strerror(errno), STDERR_FILENO);
 	ft_putchar_fd('\n', STDERR_FILENO);
-	return (errno);
+	return (1);
+}
+
+int	print_export_err(t_data *prog, char const *msg)
+{
+	ft_putstr_fd(prog->prog, STDERR_FILENO);
+	if (msg)
+	{
+		ft_putstr_fd(": export: `", STDERR_FILENO);
+		ft_putstr_fd(msg, STDERR_FILENO);
+		ft_putstr_fd("': not a valid identifier", STDERR_FILENO);
+	}
+	ft_putchar_fd('\n', STDERR_FILENO);
+	return (1);
 }
