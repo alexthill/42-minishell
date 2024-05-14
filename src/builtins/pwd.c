@@ -22,12 +22,8 @@ int	cmd_pwd(t_data *data, char **args)
 	(void)args;
 	pwd = getcwd(NULL, 0);
 	if (pwd == NULL)
-	{
-		print_errno(0, "MSG_PWD_ERR");
-		return (1);
-	}
-	ft_putstr_fd(pwd, data->outfile);
-	ft_putstr_fd("\n", data->outfile);
+		return (print_errno(1, NULL));
+	ft_putendl_fd(pwd, data->outfile);
 	free(pwd);
 	return (0);
 }

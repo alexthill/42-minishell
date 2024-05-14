@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 15:11:48 by elo               #+#    #+#             */
-/*   Updated: 2024/04/24 16:02:11 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/05/14 14:35:08 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	cmd_echo(t_data *data, char **args)
 
 	i = 1;
 	newline = 1;
-	if (args[i] && ft_streq(args[i], "-n"))
+	while (args[i] && ft_streq(args[i], "-n"))
 	{
 		newline = 0;
 		i++;

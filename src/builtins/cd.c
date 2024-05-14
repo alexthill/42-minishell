@@ -6,13 +6,12 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 16:09:43 by elo               #+#    #+#             */
-/*   Updated: 2024/05/13 18:34:44 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/05/14 13:35:25 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
-#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -56,7 +55,7 @@ int	set_env_var(t_data *data, char *name, char *value)
 	return (1);
 }
 
-int	update_oldpwd(t_data *data, char **args)
+static int	update_oldpwd(t_data *data, char **args)
 {
 	char	*oldpwd;
 
@@ -72,7 +71,7 @@ int	update_oldpwd(t_data *data, char **args)
 	return (0);
 }
 
-int	update_pwd(t_data *data, char **args)
+static int	update_pwd(t_data *data, char **args)
 {
 	char	*curr;
 	int		res;

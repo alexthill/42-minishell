@@ -6,22 +6,21 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:07:51 by ehamm             #+#    #+#             */
-/*   Updated: 2024/05/06 09:36:14 by athill           ###   ########.fr       */
+/*   Updated: 2024/05/14 14:30:14 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include "libft.h"
 #include "minishell.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
 
-int	remove_env(t_data *data, char *name)
+static void	remove_env(t_data *data, char *name)
 {
 	t_env	*node;
 	t_env	*prev;
 
 	node = data->env;
+	prev = node;
 	if (ft_streq(node->name, name))
 		data->env = node->next;
 	else
@@ -35,27 +34,24 @@ int	remove_env(t_data *data, char *name)
 		}
 	}
 	if (node == NULL)
-		return (0);
+		return ;
 	prev->next = node->next;
 	free(node->name);
 	free(node->value);
 	free(node);
-	return (0);
+	return ;
 }
 
 int	cmd_unset(t_data *data, char **args)
 {
-	char	*name;
-	int		i;
+	int	i;
 
-	i = 1;
-	name = args[i];
-	if (args[i] == 0)
+	if (data->env == NULL)
 		return (0);
+	i = 1;
 	while (args[i])
 	{
-		name = args[i];
-		remove_env(data, name);
+		remove_env(data, args[i]);
 		i++;
 	}
 	return (0);
