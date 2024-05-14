@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 16:09:43 by elo               #+#    #+#             */
-/*   Updated: 2024/05/13 18:34:44 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/05/14 15:01:04 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,10 +97,10 @@ int	cmd_cd(t_data *data, char **args)
 
 	if (count_arg(args) > 2)
 		return (print_err(1, "cd", MSG_TOO_MANY_ARGS));
-	if (args[1][0] == '\0')
-		return (1);
 	if (args[1] == 0)
 		path = get_env_var(data, "HOME");
+	else if (args[1][0] == '\0')
+		return (1);
 	else if (ft_streq(args[1], "-") == 1)
 	{
 		path = get_env_var(data, "OLDPWD");
@@ -110,7 +110,7 @@ int	cmd_cd(t_data *data, char **args)
 	else
 		path = args[1];
 	if (chdir(path) == -1)
-		return (print_err(1, ft_strjoin("cd: ", args[1]), MSG_FILE_NOT_FOUND));
+		return (print_err_more(data, "cd: ", args[1], MSG_FILE_NOT_FOUND));
 	if (update_oldpwd(data, args) == 1)
 		return (1);
 	if (update_pwd(data, args) == 1)
