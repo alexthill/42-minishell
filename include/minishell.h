@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:24:31 by athill            #+#    #+#             */
-/*   Updated: 2024/05/14 15:43:09 by athill           ###   ########.fr       */
+/*   Updated: 2024/05/14 16:15:36 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ int		print_err(int code, char const *s, char const *msg);
 int		print_errno(int is_err, char const *s);
 int		print_err_full(char *prog, char const *extra, char const *msg);
 int		print_err_more(t_data *prog, char *ext, char *ext2, char *msg);
+int		print_export_err(t_data *prog, char const *msg);
 
 // data.c
 int		data_init(t_data *data, int argc, char **argv, char **envp);
