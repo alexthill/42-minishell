@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 09:42:56 by ehamm             #+#    #+#             */
-/*   Updated: 2024/05/14 15:54:14 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/05/14 16:36:48 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,14 +99,14 @@ static int	print_export(t_data *data)
 	return (0);
 }
 
-int	cmd_export(t_data *data, char **args, int i)
+int	cmd_export(t_data *data, char **args)
 {
 	char	*name;
 	char	*value;
 	char	**splitted;
 
-	if (is_valid_char_exp(data,args,i) == 1)
-		return (print_export_err(data, args[i]));
+	if (is_valid_char_exp(data,args) == 1)
+		return (1);
 	if (args[1] != 0)
 	{
 		splitted = ft_split2(args[1], '=');
