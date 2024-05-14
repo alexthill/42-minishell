@@ -39,8 +39,15 @@ handle_valgrind() {
 	out=$(echo "$1" | tr ';' '\n' | valgrind $2 2>&1 >/dev/null)
 	cd ..
 	rm -rf temp/*
-	lost=$(echo "$out" | grep "definitely lost: [^0]" | wc -l)
+	lost=$(echo "$out" | grep " lost: [^0]" | wc -l)
 	reachable=$(echo "$out" | grep "still reachable: [^0]" | wc -l)
+	problems=$(echo "$out" | grep -e "Invalid read" -e "Invalid free" -e "uninitialised value" | wc -l)
+	if [[ "$problems" -ne "0" ]]; then
+		echo -en "\033[1;31mPROBLEMS\033[0m "
+		if [[ "$lost" -eq "0" ]]; then
+			errcount=$((errcount + 1))
+		fi
+	fi
 	if [[ "$lost" -ne "0" ]]; then
 		echo -e "\033[1;31mLEAK\033[0m"
 		errcount=$((errcount + 1))
