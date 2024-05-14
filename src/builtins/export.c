@@ -10,20 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include "libft.h"
 #include "minishell.h"
-#include <errno.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
+#include "utils.h"
 
-int	modify_or_add_env_variable(t_data *data, char *name, char *value)
+static void	modify_or_add_env_variable(t_data *data, char *name, char *value)
 {
 	t_env	*node;
 
 	if (data == NULL || data->env == NULL)
-		return (0);
+		return ;
 	node = data->env;
 	while (node)
 	{
@@ -32,15 +29,15 @@ int	modify_or_add_env_variable(t_data *data, char *name, char *value)
 			free(name);
 			free(node->value);
 			node->value = value;
-			return (0);
+			return ;
 		}
 		node = node->next;
 	}
 	ft_lstadd_front2(&data->env, ft_lstnew2(name, value));
-	return (0);
+	return ;
 }
 
-void	swap_nodes(t_env *node)
+static void	swap_nodes(t_env *node)
 {
 	char	*tmp_name;
 	char	*tmp_value;
@@ -53,7 +50,7 @@ void	swap_nodes(t_env *node)
 	node->next->value = tmp_value;
 }
 
-int	sort_export(t_data *data)
+static int	sort_export(t_data *data)
 {
 	t_env	*node;
 	int		swap;
@@ -76,18 +73,27 @@ int	sort_export(t_data *data)
 	return (0);
 }
 
-int	print_export(t_data *data)
+static int	print_export(t_data *data)
 {
 	t_env	*node;
+	char	*escaped;
 
-	node = data->env;
 	sort_export(data);
+	node = data->env;
 	while (node)
 	{
-		if (node->value == NULL)
-			printf("declare -x %s\n", node->name);
-		else
-			printf("declare -x %s=\"%s\"\n", node->name, node->value);
+		ft_putstr_fd("declare -x ", data->outfile);
+		ft_putstr_fd(node->name, data->outfile);
+		if (node->value)
+		{
+			ft_putstr_fd("=\"", data->outfile);
+			escaped = str_escape(node->value, '\\', "\"");
+			if (escaped)
+				ft_putstr_fd(escaped, data->outfile);
+			free(escaped);
+			ft_putstr_fd("\"", data->outfile);
+		}
+		ft_putchar_fd('\n', data->outfile);
 		node = node->next;
 	}
 	return (0);

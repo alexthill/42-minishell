@@ -12,19 +12,22 @@
 
 #include "libft.h"
 #include "minishell.h"
-#include <stdio.h>
 
-int	print_env(t_data *data)
+static void	print_env(t_data *data)
 {
 	t_env	*node;
 
 	node = data->env;
 	while (node)
 	{
-		printf("%s=%s\n", node->name, node->value);
+		if (node->name)
+			ft_putstr_fd(node->name, data->outfile);
+		ft_putstr_fd("=", data->outfile);
+		if (node->value)
+			ft_putstr_fd(node->value, data->outfile);
+		ft_putchar_fd('\n', data->outfile);
 		node = node->next;
 	}
-	return (0);
 }
 
 int	cmd_env(t_data *data, char **args)
