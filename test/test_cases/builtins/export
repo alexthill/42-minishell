@@ -15,3 +15,4 @@ export_invalid_minus2	export A-=123
 export_invalid_equal	export =
 export_invalid_numeric	export 123
 export_invalid_mutli	export A=a 123=4 B=b MINUS-
+export_invalid			export 12-3=4 B-=b MINUS- ABC=0
