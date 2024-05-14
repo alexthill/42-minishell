@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:24:31 by athill            #+#    #+#             */
-/*   Updated: 2024/05/14 14:07:53 by athill           ###   ########.fr       */
+/*   Updated: 2024/05/14 15:43:09 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int		env_to_envp(t_data *data, char ***envp);
 void	ft_lstadd_front2(t_env **lst, t_env *new);
 t_env	*ft_lstnew2(void *name, void *value);
 char	**ft_split2(const char *s, char c);
-int		is_invalid_char_exp(char **args);
+int		is_valid_char_exp(t_data *data, char **args, int i);
 int		count_arg(char **args);
 
 // signal.c
