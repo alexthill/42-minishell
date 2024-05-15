@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 09:59:56 by athill            #+#    #+#             */
-/*   Updated: 2024/04/30 16:46:25 by athill           ###   ########.fr       */
+/*   Updated: 2024/05/15 10:19:13 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,32 @@ static int	matches_pattern(char const *s, char const *p)
 	return (*s == '\0');
 }
 
+static int	matches_pattern2(char const *s, char const *p)
+{
+	char const *end;
+
+	if (*s == '.' && *p != '.')
+		return (0);
+	while (*p)
+	{
+		if (*p == '\\')
+			p++;
+		if (*p != '*' && *s != *p)
+			return (0);
+		if (*p != '*' && *s == *p && p++ && s++)
+			continue ;
+		while (*p == '*')
+			p++;
+		end = s + ft_strlen(s);
+		while (s != end && *end != *p)
+			end--;
+		if (s == end && *s != *p)
+			return (0);
+		s = end;
+	}
+	return (*s == '\0');
+}
+
 static int	read_from_dir(DIR *dir, char const *pattern, t_buffer *buf)
 {
 	struct dirent	*dirent;
@@ -48,7 +74,8 @@ static int	read_from_dir(DIR *dir, char const *pattern, t_buffer *buf)
 	dirent = readdir(dir);
 	if (!dirent)
 		return (0);
-	if (matches_pattern(dirent->d_name, pattern))
+	if (matches_pattern(dirent->d_name, pattern)
+		|| matches_pattern2(dirent->d_name, pattern))
 	{
 		buffer_push(buf, ft_strdup(dirent->d_name));
 		if (buffer_last(buf) == NULL)

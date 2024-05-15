@@ -19,3 +19,4 @@ glob_in_single_quotes	echo '*'
 glob_in_double_quotes	echo "*"
 glob_in_redir1			cat < *in;
 glob_in_redir2			cat > read*;
+glob_sdhfj			touch bonus bonus_bonus; echo bo*s
