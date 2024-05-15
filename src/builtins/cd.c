@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 16:09:43 by ehamm             #+#    #+#             */
-/*   Updated: 2024/05/14 16:38:54 by athill           ###   ########.fr       */
+/*   Updated: 2024/05/15 09:44:23 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,38 +55,14 @@ int	set_env_var(t_data *data, char *name, char *value)
 	return (1);
 }
 
-static int	update_oldpwd(t_data *data, char **args)
-{
-	char	*oldpwd;
-
-	oldpwd = get_env_var(data, "PWD");
-	if (oldpwd == NULL)
-		return (print_err(1, ft_strjoin("cd: ", args[1]), MSG_FILE_NOT_FOUND));
-	if (set_env_var(data, "OLDPWD", oldpwd) == 1)
-	{
-		free(oldpwd);
-		print_err(1, ft_strjoin("cd: ", args[1]), MSG_FILE_NOT_FOUND);
-		return (1);
-	}
-	return (0);
-}
-
-static int	update_pwd(t_data *data, char **args)
+static int	update_directory(t_data *data, char **args, const char *name)
 {
 	char	*curr;
-	int		res;
 
 	curr = getcwd(NULL, 0);
 	if (curr == NULL)
 		return (print_err(1, ft_strjoin("cd: ", args[1]), MSG_FILE_NOT_FOUND));
-	res = set_env_var(data, "PWD", curr);
-	free(curr);
-	if (res == 1)
-	{
-		free(curr);
-		print_err(1, ft_strjoin("cd: ", args[1]), MSG_FILE_NOT_FOUND);
-		return (1);
-	}
+	modify_or_add_env_variable(data, ft_strdup(name), curr);
 	return (0);
 }
 
@@ -100,19 +76,13 @@ int	cmd_cd(t_data *data, char **args)
 		return (print_err(1, "cd", MSG_TOO_MANY_ARGS));
 	else if (args[1][0] == '\0')
 		return (1);
-	else if (ft_streq(args[1], "-") == 1)
-	{
-		path = get_env_var(data, "OLDPWD");
-		ft_putstr_fd(path, data->outfile);
-		ft_putstr_fd("\n", data->outfile);
-	}
 	else
 		path = args[1];
+	if (update_directory(data, args, "OLDPWD") == 1)
+		return (1);
 	if (chdir(path) == -1)
 		return (print_err_more(data, "cd: ", args[1], MSG_FILE_NOT_FOUND));
-	if (update_oldpwd(data, args) == 1)
-		return (1);
-	if (update_pwd(data, args) == 1)
+	if (update_directory(data, args, "PWD") == 1)
 		return (1);
 	return (0);
 }

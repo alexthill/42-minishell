@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 09:42:56 by ehamm             #+#    #+#             */
-/*   Updated: 2024/05/14 16:42:35 by athill           ###   ########.fr       */
+/*   Updated: 2024/05/15 09:44:34 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "minishell.h"
 #include "utils.h"
 
-static void	modify_or_add_env_variable(t_data *data, char *name, char *value)
+void	modify_or_add_env_variable(t_data *data, char *name, char *value)
 {
 	t_env	*node;
 
@@ -105,7 +105,7 @@ int	cmd_export(t_data *data, char **args)
 	char	*value;
 	char	**splitted;
 
-	if (is_valid_char_exp(data,args) == 1)
+	if (is_valid_char_exp(data, args) == 1)
 		return (1);
 	if (args[1] != 0)
 	{
