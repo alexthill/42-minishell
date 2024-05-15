@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 09:42:56 by ehamm             #+#    #+#             */
-/*   Updated: 2024/05/15 09:44:34 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/05/15 09:52:11 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	modify_or_add_env_variable(t_data *data, char *name, char *value)
 {
 	t_env	*node;
 
-	if (data == NULL || data->env == NULL)
+	if (data == NULL || data->env == NULL || name == NULL)
 		return ;
 	node = data->env;
 	while (node)
