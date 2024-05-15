@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:24:31 by athill            #+#    #+#             */
-/*   Updated: 2024/05/14 16:37:03 by athill           ###   ########.fr       */
+/*   Updated: 2024/05/15 09:31:05 by ehamm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ t_env	*env_var_extract(char **envp);
 char	*get_env_var(t_data *data, char *name);
 int		set_env_var(t_data *data, char *name, char *value);
 int		env_to_envp(t_data *data, char ***envp);
+void	modify_or_add_env_variable(t_data *data, char *name, char *value);
 
 //utils 
 void	ft_lstadd_front2(t_env **lst, t_env *new);
