@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 10:00:00 by athill            #+#    #+#             */
-/*   Updated: 2024/05/13 11:09:04 by athill           ###   ########.fr       */
+/*   Updated: 2024/05/15 09:47:37 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ static int	update_shlvl(t_data *data)
 	new_value = ft_itoa(ft_atoi(value) + 1);
 	if (!new_value)
 		return (1);
-	set_env_var(data, "SHLVL", new_value);
-	free(new_value);
+	modify_or_add_env_variable(data, ft_strdup("SHLVL"), new_value);
 	return (0);
 }
 

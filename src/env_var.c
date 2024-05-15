@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 13:19:01 by ehamm             #+#    #+#             */
-/*   Updated: 2024/04/25 09:56:19 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/05/15 09:51:47 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 
 void	ft_lstadd_front2(t_env **lst, t_env *new)
 {
+	if (new == NULL || lst == NULL)
+		return ;
 	new->next = *lst;
 	*lst = new;
 }

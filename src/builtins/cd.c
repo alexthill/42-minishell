@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 16:09:43 by ehamm             #+#    #+#             */
-/*   Updated: 2024/05/15 09:44:23 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/05/15 09:48:40 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-char	*get_env_var(t_data *data, char *name)
+char	*get_env_var(t_data *data, char const *name)
 {
 	t_env	*node;
 
@@ -29,30 +29,6 @@ char	*get_env_var(t_data *data, char *name)
 		node = node->next;
 	}
 	return (NULL);
-}
-
-int	set_env_var(t_data *data, char *name, char *value)
-{
-	t_env	*node;
-	char	*new_value;
-
-	if (name == NULL || data == NULL || value == NULL)
-		return (1);
-	node = data->env;
-	while (node)
-	{
-		if (ft_streq(node->name, name))
-		{
-			new_value = ft_strdup(value);
-			if (new_value == NULL)
-				return (1);
-			free(node->value);
-			node->value = new_value;
-			return (0);
-		}
-		node = node->next;
-	}
-	return (1);
 }
 
 static int	update_directory(t_data *data, char **args, const char *name)

@@ -6,7 +6,7 @@
 /*   By: ehamm <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:24:31 by athill            #+#    #+#             */
-/*   Updated: 2024/05/15 09:31:05 by ehamm            ###   ########.fr       */
+/*   Updated: 2024/05/15 09:48:54 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,7 @@ void	ft_sort_str_tab(char **tab, size_t size);
 
 //env var manipulations
 t_env	*env_var_extract(char **envp);
-char	*get_env_var(t_data *data, char *name);
-int		set_env_var(t_data *data, char *name, char *value);
+char	*get_env_var(t_data *data, char const *name);
 int		env_to_envp(t_data *data, char ***envp);
 void	modify_or_add_env_variable(t_data *data, char *name, char *value);
 
