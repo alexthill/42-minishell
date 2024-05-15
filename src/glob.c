@@ -6,7 +6,7 @@
 /*   By: athill <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 09:59:56 by athill            #+#    #+#             */
-/*   Updated: 2024/05/15 10:19:13 by athill           ###   ########.fr       */
+/*   Updated: 2024/05/15 10:26:53 by athill           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	matches_pattern(char const *s, char const *p)
 
 static int	matches_pattern2(char const *s, char const *p)
 {
-	char const *end;
+	char const	*end;
 
 	if (*s == '.' && *p != '.')
 		return (0);
