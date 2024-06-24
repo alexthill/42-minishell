@@ -19,15 +19,37 @@ if [ "$1" = "valgrind" ] || [ "$2" = "valgrind" ]; then
 	valgrind=1
 fi
 
-out=$(make -C ..)
-if [ "$?" != "0" ]; then
-	echo "$out"
-	echo -e "\033[1;31mCompilation failed!\033[0m"
-	exit 1
+do_make() {
+	out=$(make -C ..)
+	if [ "$?" != "0" ]; then
+		echo "$out"
+		echo -e "\033[1;31mCompilation failed!\033[0m"
+		exit 1
+	fi
+}
+
+do_make
+
+echo "testing if piping into minishell works correctly"
+test_out=$(echo 'echo test' | ../minishell)
+if [ "$test_out" == "test" ]; then
+	echo -e "\033[1;32mWorking!\033[0m"
+else
+	echo -e "\033[1;31mNot working!\033[0m"
+	echo "expected 'test' but found '$test_out'"
+	echo "trying to auto patch"
+	./isatty_patcher.sh '..'
+	if [ $? -ne '0' ]; then
+		echo -e "\033[1;31mNo patching was done, abort\033[0m"
+		exit 1
+	fi
+	echo "patching finished, press any key to continue with the tests"
+	do_make
+	read
 fi
 
 errcount=0
-rm -rf diffs temp
+rm -rf diffs temp all.diff
 mkdir diffs temp
 
 handle_valgrind() {
@@ -138,6 +160,8 @@ else
 	echo -e "\033[1;31m${errcount} TESTS FAILED!\033[0m"
 	if [[ $valgrind -ne "1" ]]; then
 		echo "diffs have been written to ./diffs/"
+		tail -n +1 diffs/* > all.diff
+		echo "concatenation of all diffs has been written do ./all.diff"
 	else
 		rmdir diffs
 	fi
